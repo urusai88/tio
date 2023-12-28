@@ -42,12 +42,12 @@ class TioError implements Error {
 }
 
 class TioException implements Exception {
-  const TioException._({
-    required this.type,
-    this.message,
-    this.stackTrace,
-    this.dioException,
-  });
+  // const TioException._({
+  //   required this.type,
+  //   this.message,
+  //   this.stackTrace,
+  //   this.dioException,
+  // });
 
   const TioException.dio({
     this.message,
