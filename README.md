@@ -1,7 +1,10 @@
 A simple wrapper for [dio](https://pub.dev/packages/dio) with response typing and full backward compatibility.   
 Inspired by [chopper](https://pub.dev/packages/chopper).
 
-#### Features
+> This package currently in beta. Use it with caution.
+
+## Features
+
 - Safe typing of successful and unsuccessful responses.
 - Expected behavior.
 - Does not affect basic Dio functionality including other plugins or interceptors.
@@ -58,7 +61,9 @@ void main() async {
 }
 ```
 
-#### Guide
+## Guide
+
+#### Common
 
 Tio mirrors the common methods of `Dio` such as `get`, `post`, `put` etc. but returns proxy object as a result that might be transformed by additional methods like `one()`, `many()`, `string()` etc.
 
