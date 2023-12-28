@@ -17,3 +17,26 @@ extension ResponseX<T> on Response<T> {
     return null;
   }
 }
+
+extension RequestOptionsX on RequestOptions {
+  Options toOptions() {
+    return Options(
+      method: method,
+      sendTimeout: sendTimeout,
+      receiveTimeout: receiveTimeout,
+      extra: extra,
+      headers: headers,
+      preserveHeaderCase: preserveHeaderCase,
+      responseType: responseType,
+      contentType: contentType,
+      validateStatus: validateStatus,
+      receiveDataWhenStatusError: receiveDataWhenStatusError,
+      followRedirects: followRedirects,
+      maxRedirects: maxRedirects,
+      persistentConnection: persistentConnection,
+      requestEncoder: requestEncoder,
+      responseDecoder: responseDecoder,
+      listFormat: listFormat,
+    );
+  }
+}
