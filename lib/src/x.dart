@@ -40,3 +40,18 @@ extension RequestOptionsX on RequestOptions {
     );
   }
 }
+
+extension DioX on Dio {
+  Future<Response<T>> restart<T>(Response<T> originalResponse) {
+    final requestOptions = originalResponse.requestOptions;
+    return request(
+      requestOptions.path,
+      data: requestOptions.data,
+      queryParameters: requestOptions.queryParameters,
+      cancelToken: requestOptions.cancelToken,
+      options: requestOptions.toOptions(),
+      onSendProgress: requestOptions.onSendProgress,
+      onReceiveProgress: requestOptions.onReceiveProgress,
+    );
+  }
+}

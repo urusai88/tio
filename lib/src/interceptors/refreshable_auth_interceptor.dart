@@ -84,7 +84,7 @@ abstract base class TioRefreshableAuthInterceptor<R, ERR>
       'refreshing token, data.runtimeType: ${_dataToString(response.data)}',
     );
     await _refreshToken();
-    handler.resolve(await _restart(response));
+    handler.resolve(await client.dio.restart(response));
   }
 
   Future<void> _refreshToken() async {
@@ -105,21 +105,6 @@ abstract base class TioRefreshableAuthInterceptor<R, ERR>
         await accessTokenKey.delete();
         await refreshTokenKey.delete();
     }
-  }
-
-  Future<Response<T>> _restart<T>(
-    Response<T> originalResponse,
-  ) {
-    final requestOptions = originalResponse.requestOptions;
-    return client.dio.request(
-      requestOptions.path,
-      data: requestOptions.data,
-      queryParameters: requestOptions.queryParameters,
-      cancelToken: requestOptions.cancelToken,
-      options: requestOptions.toOptions(),
-      onSendProgress: requestOptions.onSendProgress,
-      onReceiveProgress: requestOptions.onReceiveProgress,
-    );
   }
 
   static String _dataToString(dynamic data) =>
