@@ -10,8 +10,6 @@ topics:
   - dio
   - api
   - client
-  - http
-  - network
   - rest
 
 environment:
