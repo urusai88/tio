@@ -1,11 +1,8 @@
 import 'dart:io';
 
-import 'package:dio/dio.dart';
 import 'package:logging/logging.dart';
 
-import '../errors.dart';
-import '../interceptor.dart';
-import '../response.dart';
+import '../../tio.dart';
 
 abstract interface class TioStorageKey<T> {
   Future<T?> get({T? defaultValue});
@@ -110,38 +107,18 @@ abstract base class TioRefreshableAuthInterceptor<R, ERR>
     }
   }
 
-  static Options _optionsFromRequest(
-    RequestOptions requestOptions,
-  ) =>
-      Options(
-        method: requestOptions.method,
-        sendTimeout: requestOptions.sendTimeout,
-        receiveTimeout: requestOptions.receiveTimeout,
-        extra: requestOptions.extra,
-        headers: requestOptions.headers,
-        responseType: requestOptions.responseType,
-        contentType: requestOptions.contentType,
-        validateStatus: requestOptions.validateStatus,
-        receiveDataWhenStatusError: requestOptions.receiveDataWhenStatusError,
-        followRedirects: requestOptions.followRedirects,
-        maxRedirects: requestOptions.maxRedirects,
-        persistentConnection: requestOptions.persistentConnection,
-        requestEncoder: requestOptions.requestEncoder,
-        responseDecoder: requestOptions.responseDecoder,
-      );
-
   Future<Response<T>> _restart<T>(
     Response<T> originalResponse,
   ) {
-    final originalOptions = originalResponse.requestOptions;
+    final requestOptions = originalResponse.requestOptions;
     return client.dio.request(
-      originalOptions.path,
-      options: _optionsFromRequest(originalOptions),
-      data: originalOptions.data,
-      queryParameters: originalOptions.queryParameters,
-      onSendProgress: originalOptions.onSendProgress,
-      onReceiveProgress: originalOptions.onReceiveProgress,
-      cancelToken: originalOptions.cancelToken,
+      requestOptions.path,
+      options: requestOptions.toOptions(),
+      data: requestOptions.data,
+      queryParameters: requestOptions.queryParameters,
+      onSendProgress: requestOptions.onSendProgress,
+      onReceiveProgress: requestOptions.onReceiveProgress,
+      cancelToken: requestOptions.cancelToken,
     );
   }
 
