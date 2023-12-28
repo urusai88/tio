@@ -113,12 +113,12 @@ abstract base class TioRefreshableAuthInterceptor<R, ERR>
     final requestOptions = originalResponse.requestOptions;
     return client.dio.request(
       requestOptions.path,
-      options: requestOptions.toOptions(),
       data: requestOptions.data,
       queryParameters: requestOptions.queryParameters,
+      cancelToken: requestOptions.cancelToken,
+      options: requestOptions.toOptions(),
       onSendProgress: requestOptions.onSendProgress,
       onReceiveProgress: requestOptions.onReceiveProgress,
-      cancelToken: requestOptions.cancelToken,
     );
   }
 
