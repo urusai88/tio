@@ -104,7 +104,7 @@ abstract base class TioRefreshableAuthInterceptor<R, ERR>
         final data = getRefreshTokenResult(result);
         await accessTokenKey.set(data.accessToken);
         await refreshTokenKey.set(data.refreshToken);
-      case final TioFailure<R, ERR> error:
+      case final TioFailure<R, ERR> _:
         await accessTokenKey.delete();
         await refreshTokenKey.delete();
     }
