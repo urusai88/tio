@@ -65,7 +65,7 @@ void main() async {
 
 #### Common
 
-Tio mirrors the common methods of `Dio` such as `get`, `post`, `put` etc. but returns proxy object as a result that might be transformed by additional methods like `one()`, `many()`, `string()` etc.
+`Tio` mirrors the common methods of `Dio` such as `get`, `post`, `put` etc. but returns proxy object as a result that might be transformed by additional methods like `one()`, `many()`, `string()` etc.
 
 ```dart
 Future<TioResponse<User, MyError>> getUser(int id) =>
@@ -81,7 +81,7 @@ Future<TioResponse<String, MyError>> geString() =>
     tio.get<String>('/text').string();
 ```
 
-#### How Tio knows that responce is unsuccessfull?
+#### How Tio knows that response is unsuccessfull?
 With the `Options.validateStatus` property.  
 Tio transforms any `DioException` with type `badResposce` into an `ErrorT` then returns `TioFailure<..., ErrorT>` instead of throwing an exception.
 
@@ -105,7 +105,7 @@ void main() async {
 }
 ```
 
-Also Tio can throw `TioError` if requested factory does not registered.
+Also Tio can throw `TioError` if requested factory does not registered. It must be avoided in release.
 
 #### Tips & Tricks
 
@@ -114,7 +114,7 @@ Alias usage to slightly reduce code size.
 ```dart
 typedef MyResponse<R> = TioResponse<T, MyError>;
 
-Future<TioResponse<User>> getUser(int id) =>
+Future<MyResponse<User>> getUser(int id) =>
     tio.get<User>('/users/$id').one();
 ```
 

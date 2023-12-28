@@ -8,6 +8,11 @@ description: |
 
 topics:
   - dio
+  - api
+  - client
+  - http
+  - network
+  - rest
 
 environment:
   sdk: '>=3.0.0 <4.0.0'
