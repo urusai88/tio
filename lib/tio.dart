@@ -8,3 +8,4 @@ export 'src/interceptor.dart';
 export 'src/request_proxy.dart';
 export 'src/response.dart';
 export 'src/typedefs.dart';
+export 'src/x.dart';
