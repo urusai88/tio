@@ -81,7 +81,7 @@ Future<TioResponse<String, MyError>> geString() =>
     tio.get<String>('/text').string();
 ```
 
-#### How Tio knows that response is unsuccessfull?
+#### How Tio knows that response is unsuccessful?
 With the `Options.validateStatus` property.  
 Tio transforms any `DioException` with type `badResposce` into an `ErrorT` then returns `TioFailure<..., ErrorT>` instead of throwing an exception.
 
@@ -112,7 +112,7 @@ Also Tio can throw `TioError` if requested factory does not registered. It must 
 Alias usage to slightly reduce code size.
 
 ```dart
-typedef MyResponse<R> = TioResponse<T, MyError>;
+typedef MyResponse<T> = TioResponse<T, MyError>;
 
 Future<MyResponse<User>> getUser(int id) =>
     tio.get<User>('/users/$id').one();
