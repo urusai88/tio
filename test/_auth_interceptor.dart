@@ -1,8 +1,6 @@
 import 'dart:io';
 
-import 'package:dio/src/response.dart';
-import 'package:tio/src/interceptor.dart';
-import 'package:tio/src/response.dart';
+import 'package:tio/tio.dart';
 
 import '_internal.dart';
 

@@ -32,13 +32,13 @@ class MyError {
 
 final factoryConfig = TioFactoryConfig<MyError>(
   jsonFactoryList: const [
-    TioJsonFactory(User.fromJson),
+    TioJsonFactory<User>(User.fromJson),
   ],
   // Factory for error transformation
   errorGroup: TioFactoryGroup(
     empty: (response) => const MyError('Unknown error'), // when response body is empty (or empty string)
     string: MyError.new, // string
-    json: const TioJsonFactory(MyError.fromJson), // or json
+    json: const TioJsonFactory<MyError>(MyError.fromJson), // or json
   ),
 );
 

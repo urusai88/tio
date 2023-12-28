@@ -8,9 +8,9 @@ import '_typedefs.dart';
 
 final factoryConfig = TioFactoryConfig<MyResponseError>(
   jsonFactoryList: const [
-    TioJsonFactory(Todo.fromJson),
-    TioJsonFactory(User.fromJson),
-    TioJsonFactory(RefreshTokenResponse.fromJson),
+    TioJsonFactory<Todo>(Todo.fromJson),
+    TioJsonFactory<User>(User.fromJson),
+    TioJsonFactory<RefreshTokenResponse>(RefreshTokenResponse.fromJson),
   ],
   errorGroup: TioFactoryGroup(
     empty: (response) => const MyResponseError('Unknown error'),
