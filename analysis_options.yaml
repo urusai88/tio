@@ -11,8 +11,12 @@ analyzer:
     always_put_required_named_parameters_first: ignore
     avoid_annotating_with_dynamic: ignore
     avoid_catches_without_on_clauses: ignore
+    avoid_multiple_declarations_per_line: ignore
+    avoid_redundant_argument_values: ignore
     cascade_invocations: ignore
     diagnostic_describe_all_properties: ignore
+    do_not_use_environment: ignore
+    lines_longer_than_80_chars: ignore
     one_member_abstracts: ignore
     parameter_assignments: ignore
     prefer_asserts_with_message: ignore
