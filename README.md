@@ -86,7 +86,7 @@ With the `Options.validateStatus` property.
 Tio transforms any `DioException` with type `badResposce` into an `ErrorT` then returns `TioFailure<..., ErrorT>` instead of throwing an exception.
 
 #### How to process exceptions and critical errors?
-Instead of `DioException` you should catch `TioException`
+Instead of `DioException` you should catch `TioException`.
 
 ```dart
 void main() async {
