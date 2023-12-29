@@ -1,3 +1,11 @@
+## 0.3.0
+- update README.md
+- update pubspec.yaml topics
+- added ResponseOptions.toOptions extension method
+- added Dio.restart extension method
+- added github workflows
+- fix code styles
+
 ## 0.2.0
 - update README.md
 - update pubspec.yaml topics
