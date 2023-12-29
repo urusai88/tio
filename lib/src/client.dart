@@ -31,8 +31,11 @@ class Tio<E> {
   TioJsonFactory<T> _checkFactory<T>() {
     final factory = factoryConfig.get<T>();
     if (factory == null) {
+      final containsFactories =
+          factoryConfig.containsFactories.map((e) => '[$e]').join(', ');
       throw TioError.config(
-        message: 'Can not find factory for [$T] type',
+        message:
+            'Can not find factory for [$T] type. Found factories for $containsFactories',
       );
     }
     return factory;
