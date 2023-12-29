@@ -37,7 +37,7 @@ class Tio<E> {
           factoryConfig.containsFactories.map((e) => '[$e]').join(', ');
       throw TioError.config(
         message:
-            'Can not find factory for [$T] type. Found factories for $containsFactories',
+            'Can not find factory for [$T] type. Found factories for $containsFactories.',
       );
     }
     return factory;
@@ -152,7 +152,7 @@ class Tio<E> {
   }
 
   /// Adds a method and responseType to the [Options] if they are absent.
-  Options checkOptions({
+  Options? checkOptions({
     Options? options,
     String? method,
     ResponseType? responseType,
