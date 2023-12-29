@@ -16,6 +16,9 @@ class TestTioService extends TioService<MyResponseError> {
   Future<MyResponse<List<User>>> postsAsUsers() =>
       client.get<User>('/posts').many();
 
+  Future<MyResponse<User>> postAsUser(int id) =>
+      client.get<User>('/posts/$id').one();
+
   Future<MyResponse<List<Todo>>> todos() => client.get<Todo>('/todos').many();
 
   Future<MyResponse<ResponseBody>> todosAsStream() =>

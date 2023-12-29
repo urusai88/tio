@@ -22,13 +22,27 @@ void main() {
     );
 
     test(
-      'transformation error',
+      'transformation error many',
       () async => expect(
         testService.postsAsUsers(),
         throwsA(
           isA<TioException>().having(
             (error) => error.type,
-            'type must be a middleware',
+            'type',
+            equals(TioExceptionType.middleware),
+          ),
+        ),
+      ),
+    );
+
+    test(
+      'transformation error one',
+      () async => expect(
+        testService.postAsUser(1),
+        throwsA(
+          isA<TioException>().having(
+            (error) => error.type,
+            'type',
             equals(TioExceptionType.middleware),
           ),
         ),
