@@ -3,6 +3,7 @@ run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on:
   push:
     branches:
+      - main
       - ga
 
 jobs:
@@ -15,8 +16,6 @@ jobs:
       - run: dart pub get
       - run: dart test -j 1 --coverage .coverage
       - run: dart run coverage:format_coverage -l -i .coverage -o .coverage/coverage.lcov --report-on=lib
-
-      - run: pwd
 
       - name: Codecov
         uses: codecov/codecov-action@v3
