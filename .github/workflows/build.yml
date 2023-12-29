@@ -1,0 +1,25 @@
+name: Build
+run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+on:
+  push:
+    branches:
+      - main
+      - ga
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: dart-lang/setup-dart@v1
+
+      - run: dart pub get
+      - run: dart test -j 1 --coverage .coverage
+      - run: dart run coverage:format_coverage -l -i .coverage -o .coverage/coverage.lcov --report-on=lib
+
+      - name: Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          directory: .coverage
+          files: coverage.lcov
