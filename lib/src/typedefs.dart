@@ -1,4 +1,8 @@
-import '../tio.dart';
+import 'package:dio/dio.dart';
+
+import 'client.dart';
+import 'interceptor.dart';
+import 'response.dart';
 
 typedef JSON = Map<String, dynamic>;
 
@@ -13,26 +17,14 @@ class TioJsonFactory<T> {
   T call(JSON json) => factory(json);
 }
 
-typedef TioResponseTransformer<R, ERR, D> = TioResponse<R, ERR> Function(
+typedef TioResponseTransformer<T, E, D> = TioResponse<T, E> Function(
   Response<D> resp,
 );
 
-typedef TioResultTransformer<R, ERR, R1> = R1 Function(
-  TioSuccess<R, ERR> current,
+typedef TioResultTransformer<T, E, R> = R Function(
+  TioSuccess<T, E> current,
 );
 
-typedef TioInterceptorBuilder<ERR> = TioInterceptor<ERR> Function(
-  Tio<ERR> client,
+typedef TioInterceptorBuilder<E> = TioInterceptor<E> Function(
+  Tio<E> client,
 );
-
-class TioRequestExtra {
-  const TioRequestExtra({this.ignoreAuth = false});
-
-  final bool ignoreAuth;
-}
-
-class TioResponseExtra {
-  const TioResponseExtra(this.response);
-
-  final Response<dynamic>? response;
-}
