@@ -13,17 +13,31 @@ const accessTokenFresh = 'fresh';
 const badTokenMessage = 'please refresh token';
 const goodTokenMessage = 'refresh token is fine';
 
+const errorCode = HttpStatus.notFound;
+const errorEmpty = 'Unknown error';
+const errorString = '404 Not Found';
+const errorJson = {'message': errorString};
+
 T? _findEntity<T extends HasId>(Iterable<T> items, String id) =>
     items.firstWhereOrNull((e) => e.id == int.tryParse(id));
 
-void _writeJson(HttpResponse response, dynamic data, [dynamic entityId]) {
+void _writeJson(
+  HttpResponse response,
+  dynamic data, {
+  bool sendStatusCode = true,
+  dynamic entityId,
+}) {
   if (data != null) {
     response.headers.contentType = ContentType.json;
-    response.statusCode = HttpStatus.ok;
+    if (sendStatusCode) {
+      response.statusCode = HttpStatus.ok;
+    }
     response.write(jsonEncode(data));
   } else {
     response.headers.contentType = ContentType.text;
-    response.statusCode = HttpStatus.notFound;
+    if (sendStatusCode) {
+      response.statusCode = HttpStatus.notFound;
+    }
     response.write(
       'Can not find an entity${entityId != null ? 'with id $entityId' : ""}',
     );
@@ -39,6 +53,8 @@ Future<void> _serverListener(HttpRequest req) async {
       await Future<void>.delayed(const Duration(seconds: 10));
     case ['posts']:
       _writeJson(resp, posts);
+    case ['posts', final id]:
+      _writeJson(resp, _findEntity(posts, id));
     case ['todos']:
       _writeJson(resp, todos);
     case ['todos', final id]:
@@ -74,6 +90,15 @@ Future<void> _serverListener(HttpRequest req) async {
         resp,
         const RefreshTokenResponse(a: accessTokenFresh, r: 'refresh_token'),
       );
+
+    case ['404_empty']:
+      resp.statusCode = errorCode;
+    case ['404_string']:
+      resp.statusCode = errorCode;
+      resp.write(errorString);
+    case ['404_json']:
+      resp.statusCode = errorCode;
+      _writeJson(resp, errorJson, sendStatusCode: false);
   }
 
   await resp.close();

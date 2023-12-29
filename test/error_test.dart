@@ -50,6 +50,48 @@ void main() {
     );
 
     test(
+      'error empty',
+      () async => expect(
+        testService.error404empty(),
+        completion(
+          isA<MyFailure<User>>().having(
+            (error) => error.error,
+            'error',
+            const MyResponseError(errorEmpty),
+          ),
+        ),
+      ),
+    );
+
+    test(
+      'error string',
+      () async => expect(
+        testService.error404string(),
+        completion(
+          isA<MyFailure<User>>().having(
+            (error) => error.error,
+            'error',
+            const MyResponseError(errorString),
+          ),
+        ),
+      ),
+    );
+
+    test(
+      'error json',
+      () async => expect(
+        testService.error404json(),
+        completion(
+          isA<MyFailure<User>>().having(
+            (error) => error.error,
+            'error',
+            MyResponseError.fromJson(errorJson),
+          ),
+        ),
+      ),
+    );
+
+    test(
       'cancel',
       () async => expect(
         Future(() {

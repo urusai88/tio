@@ -55,7 +55,6 @@ final class TioFailure<T, E> extends TioResponse<T, E> {
 
   final E error;
 
-  // coverage:ignore-start
   @override
   String toString() {
     return '''
@@ -64,5 +63,4 @@ final class TioFailure<T, E> extends TioResponse<T, E> {
     statusCode: ${response?.statusCode}
     ''';
   }
-// coverage:ignore-end
 }

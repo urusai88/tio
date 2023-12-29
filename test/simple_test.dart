@@ -16,12 +16,11 @@ void main() {
       ),
     );
 
-    final resp = Response<dynamic>(requestOptions: RequestOptions());
     expect(factoryConfig.contains<User>(), isTrue);
     expect(factoryConfig.contains<Todo>(), isFalse);
     expect(factoryConfig.get<User>(), isNotNull);
     expect(factoryConfig.get<Todo>(), isNull);
-    expect(factoryConfig.errorGroup.empty(resp), 0);
+    expect(factoryConfig.errorGroup.empty(emptyResponse), 0);
     expect(factoryConfig.errorGroup.string('123'), 123);
     expect(factoryConfig.errorGroup.json(const {'code': 312}), 312);
   });

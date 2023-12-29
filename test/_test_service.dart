@@ -35,10 +35,7 @@ class TestTioService extends TioService<MyResponseError> {
   Future<MyResponse<Todo>> todo(int id) => client.get<Todo>('/todos/$id').one();
 
   Future<MyResponse<User>> user(int id, {bool enableAuth = true}) => client
-      .get<User>(
-        '/users/$id' /*, extra: TioRequestExtra(ignoreAuth: enableAuth)*/,
-        options: Options()..enableAuth = enableAuth,
-      )
+      .get<User>('/users/$id', options: Options()..enableAuth = enableAuth)
       .one();
 
   Future<MyResponse<String>> checkAccessToken() =>
@@ -46,4 +43,13 @@ class TestTioService extends TioService<MyResponseError> {
 
   Future<MyResponse<RefreshTokenResponse>> refreshAccessToken() =>
       client.get<RefreshTokenResponse>('/refresh_access_token').one();
+
+  Future<MyResponse<User>> error404empty() =>
+      client.get<User>('/404_empty').one();
+
+  Future<MyResponse<User>> error404string() =>
+      client.get<User>('/404_string').one();
+
+  Future<MyResponse<User>> error404json() =>
+      client.get<User>('/404_json').one();
 }

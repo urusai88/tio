@@ -6,6 +6,8 @@ import '_server.dart';
 import '_test_service.dart';
 import '_typedefs.dart';
 
+final emptyResponse = Response<dynamic>(requestOptions: RequestOptions());
+
 final factoryConfig = TioFactoryConfig<MyResponseError>(
   jsonFactoryList: const [
     TioJsonFactory<Todo>(Todo.fromJson),
@@ -13,7 +15,7 @@ final factoryConfig = TioFactoryConfig<MyResponseError>(
     TioJsonFactory<RefreshTokenResponse>(RefreshTokenResponse.fromJson),
   ],
   errorGroup: TioFactoryGroup(
-    empty: (response) => const MyResponseError('Unknown error'),
+    empty: (response) => const MyResponseError(errorEmpty),
     string: MyResponseError.new,
     json: const TioJsonFactory(MyResponseError.fromJson),
   ),

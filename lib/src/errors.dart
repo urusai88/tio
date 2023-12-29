@@ -27,7 +27,6 @@ class TioError implements Error {
   @override
   final StackTrace? stackTrace;
 
-  // coverage:ignore-start
   @override
   String toString() {
     final outputs = ['TioError($message, $type)'];
@@ -39,7 +38,6 @@ class TioError implements Error {
 
     return outputs.join('\n');
   }
-// coverage:ignore-end
 }
 
 class TioException implements Exception {
@@ -61,7 +59,6 @@ class TioException implements Exception {
 
   final DioException? dioException;
 
-  // coverage:ignore-start
   @override
   String toString() {
     final outputs = ['TioException($message, $type)'];
@@ -76,5 +73,4 @@ class TioException implements Exception {
 
     return outputs.join('\n');
   }
-// coverage:ignore-end
 }
