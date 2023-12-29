@@ -23,4 +23,3 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
           directory: .coverage
           files: coverage.lcov
-          fail_ci_if_error: true

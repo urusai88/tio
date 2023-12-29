@@ -3,6 +3,9 @@ Inspired by [chopper](https://pub.dev/packages/chopper).
 
 > This package currently in beta. Use it with caution.
 
+<a href="https://github.com/urusai88/tio/actions"><img src="https://github.com/urusai88/tio/workflows/Build/badge.svg" alt="Build Status"></a>
+[![codecov](https://codecov.io/gh/urusai88/tio/branch/main/graph/badge.svg)](https://codecov.io/gh/urusai88/tio)
+
 ## Features
 
 - Safe typing of successful and unsuccessful responses.

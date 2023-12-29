@@ -16,9 +16,8 @@ enum TioExceptionType {
 }
 
 class TioError implements Error {
-  const TioError({required this.type, this.message, this.stackTrace});
-
   const TioError.config({this.message, this.stackTrace})
+      // ignore: avoid_field_initializers_in_const_classes
       : type = TioErrorType.config;
 
   final TioErrorType type;
@@ -42,13 +41,6 @@ class TioError implements Error {
 }
 
 class TioException implements Exception {
-  // const TioException._({
-  //   required this.type,
-  //   this.message,
-  //   this.stackTrace,
-  //   this.dioException,
-  // });
-
   const TioException.dio({
     this.message,
     this.stackTrace,
