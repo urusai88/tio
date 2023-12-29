@@ -8,21 +8,13 @@ import 'response.dart';
 import 'typedefs.dart';
 import 'x.dart';
 
-class TioService<ERR> {
-  const TioService({required this.client, this.path = '/'});
-
-  final Tio<ERR> client;
-
-  final String path;
-}
-
-class Tio<ERR> {
+class Tio<E> {
   const Tio({required this.dio, required this.factoryConfig});
 
   Tio.withInterceptors({
     required this.dio,
     required this.factoryConfig,
-    List<TioInterceptorBuilder<ERR>> builders = const [],
+    List<TioInterceptorBuilder<E>> builders = const [],
   }) {
     for (final builder in builders) {
       dio.interceptors.add(builder(this));
@@ -30,7 +22,7 @@ class Tio<ERR> {
   }
 
   final Dio dio;
-  final TioFactoryConfig<ERR> factoryConfig;
+  final TioFactoryConfig<E> factoryConfig;
 
   // bool _needsCheckFactory<T>() {
   //   return T != String && T != int && T != Uint8List && T != List<dynamic>;
@@ -46,26 +38,26 @@ class Tio<ERR> {
     return factory;
   }
 
-  TioResponse<String, ERR> transformString(Response<String> resp) =>
+  TioResponse<String, E> transformString(Response<String> resp) =>
       TioResponse.success(
         response: resp,
         result: resp.data!,
       );
 
-  TioResponse<Uint8List, ERR> transformBytes(Response<Uint8List> resp) =>
+  TioResponse<Uint8List, E> transformBytes(Response<Uint8List> resp) =>
       TioResponse.success(
         response: resp,
         result: resp.data!,
       );
 
-  TioResponse<ResponseBody, ERR> transformStream(Response<ResponseBody> resp) =>
+  TioResponse<ResponseBody, E> transformStream(Response<ResponseBody> resp) =>
       TioResponse.success(
         response: resp,
         result: resp.data!,
       );
 
-  TioResponse<R, ERR> transformOne<R>(Response<JSON> resp) {
-    final factory = _checkFactory<R>();
+  TioResponse<T, E> transformOne<T>(Response<JSON> resp) {
+    final factory = _checkFactory<T>();
     final data = resp.data;
     if (data is! JSON) {
       throw const TioException.middleware();
@@ -81,8 +73,8 @@ class Tio<ERR> {
     }
   }
 
-  TioResponse<List<R>, ERR> transformMany<R>(Response<List<dynamic>> resp) {
-    final factory = _checkFactory<R>();
+  TioResponse<List<T>, E> transformMany<T>(Response<List<dynamic>> resp) {
+    final factory = _checkFactory<T>();
     final json = resp.data?.castChecked<JSON>();
     if (json == null) {
       throw const TioException.middleware();
@@ -99,10 +91,10 @@ class Tio<ERR> {
     }
   }
 
-  TioResponse<void, ERR> transformEmpty(Response<dynamic> resp) =>
+  TioResponse<void, E> transformEmpty(Response<dynamic> resp) =>
       TioResponse.success(response: resp, result: null);
 
-  ERR transformError(Response<dynamic> resp) {
+  E transformError(Response<dynamic> resp) {
     final group = factoryConfig.errorGroup;
     final data = resp.data;
     if (data == null || ((data is String) && data.isEmpty)) {
@@ -121,9 +113,9 @@ class Tio<ERR> {
     }
   }
 
-  Future<TioResponse<R, ERR>> request<R, D>(
+  Future<TioResponse<T, E>> request<T, D>(
     String path,
-    TioResponseTransformer<R, ERR, D> transformer, {
+    TioResponseTransformer<T, E, D> transformer, {
     Object? data,
     JSON? queryParameters,
     CancelToken? cancelToken,
@@ -153,19 +145,6 @@ class Tio<ERR> {
       throw TioException.dio(dioException: e, stackTrace: s);
     }
   }
-
-  // static Response<T> castResponse<T>(Response<dynamic> response) {
-  //   return Response<T>(
-  //     data: response.data != null ? response.data as T : null,
-  //     requestOptions: response.requestOptions,
-  //     statusCode: response.statusCode,
-  //     statusMessage: response.statusMessage,
-  //     isRedirect: response.isRedirect,
-  //     redirects: response.redirects,
-  //     extra: response.extra,
-  //     headers: response.headers,
-  //   );
-  // }
 
   /// Adds a method and responseType to the [Options] if they are absent.
   Options checkOptions({

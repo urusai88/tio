@@ -8,12 +8,13 @@ Inspired by [chopper](https://pub.dev/packages/chopper).
 - Safe typing of successful and unsuccessful responses.
 - Expected behavior.
 - Does not affect basic Dio functionality including other plugins or interceptors.
-- No external dependencies.
+- Simple and familiar Dio like api.
 - Core concept is receiving a response as either type to utilize the exhaustive pattern.
-
+- No external dependencies.
+ 
 #### Basic usage:
 ```dart
-import 'package:tio/tio.dart'; // 'package:dio.dio.dart' imports implicitly.
+import 'package:tio/tio.dart'; // 'package:dio/dio.dart' imports implicitly.
 
 class User {
   User.fromJson(Map<String, dynamic> json) : id = json['id'] as int;
@@ -34,7 +35,7 @@ final factoryConfig = TioFactoryConfig<MyError>(
   jsonFactoryList: const [
     TioJsonFactory<User>(User.fromJson),
   ],
-  // Factory for error transformation
+  // Factories for error transformation
   errorGroup: TioFactoryGroup(
     empty: (response) => const MyError('Unknown error'), // when response body is empty (or empty string)
     string: MyError.new, // string

@@ -4,13 +4,12 @@ import 'client.dart';
 import 'request_proxy.dart';
 import 'typedefs.dart';
 
-extension TioClientX<ERR> on Tio<ERR> {
-  TioRequestProxy<R, ERR> get<R>(
+extension TioClientX<E> on Tio<E> {
+  TioRequestProxy<T, E> get<T>(
     String path, {
     Object? data,
     JSON? queryParameters,
     Options? options,
-    // TioRequestExtra? extra,
     CancelToken? cancelToken,
     ProgressCallback? onReceiveProgress,
   }) =>
@@ -21,17 +20,15 @@ extension TioClientX<ERR> on Tio<ERR> {
         data: data,
         queryParameters: queryParameters,
         options: options,
-        // extra: extra,
         cancelToken: cancelToken,
         onReceiveProgress: onReceiveProgress,
       );
 
-  TioRequestProxy<R, ERR> post<R>(
+  TioRequestProxy<T, E> post<T>(
     String path, {
     Object? data,
     JSON? queryParameters,
     Options? options,
-    // TioRequestExtra? extra,
     CancelToken? cancelToken,
     ProgressCallback? onReceiveProgress,
     ProgressCallback? onSendProgress,
@@ -43,18 +40,16 @@ extension TioClientX<ERR> on Tio<ERR> {
         data: data,
         queryParameters: queryParameters,
         options: options,
-        // extra: extra,
         cancelToken: cancelToken,
         onReceiveProgress: onReceiveProgress,
         onSendProgress: onSendProgress,
       );
 
-  TioRequestProxy<R, ERR> put<R>(
+  TioRequestProxy<T, E> put<T>(
     String path, {
     Object? data,
     JSON? queryParameters,
     Options? options,
-    // TioRequestExtra? extra,
     CancelToken? cancelToken,
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
@@ -66,18 +61,16 @@ extension TioClientX<ERR> on Tio<ERR> {
         data: data,
         queryParameters: queryParameters,
         options: options,
-        // extra: extra,
         cancelToken: cancelToken,
         onReceiveProgress: onReceiveProgress,
         onSendProgress: onSendProgress,
       );
 
-  TioRequestProxy<R, ERR> patch<R>(
+  TioRequestProxy<T, E> patch<T>(
     String path, {
     Object? data,
     JSON? queryParameters,
     Options? options,
-    // TioRequestExtra? extra,
     CancelToken? cancelToken,
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
@@ -89,18 +82,16 @@ extension TioClientX<ERR> on Tio<ERR> {
         data: data,
         queryParameters: queryParameters,
         options: options,
-        // extra: extra,
         cancelToken: cancelToken,
         onReceiveProgress: onReceiveProgress,
         onSendProgress: onSendProgress,
       );
 
-  TioRequestProxy<R, ERR> delete<R>(
+  TioRequestProxy<T, E> delete<T>(
     String path, {
     Object? data,
     JSON? queryParameters,
     Options? options,
-    // TioRequestExtra? extra,
     CancelToken? cancelToken,
   }) =>
       TioRequestProxy(
@@ -110,7 +101,6 @@ extension TioClientX<ERR> on Tio<ERR> {
         data: data,
         queryParameters: queryParameters,
         options: options,
-        // extra: extra,
         cancelToken: cancelToken,
       );
 }

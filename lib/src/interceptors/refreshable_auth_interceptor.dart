@@ -1,8 +1,12 @@
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:logging/logging.dart';
 
-import '../../tio.dart';
+import '../errors.dart';
+import '../interceptor.dart';
+import '../response.dart';
+import '../x.dart';
 
 abstract interface class TioStorageKey<T> {
   Future<T?> get({T? defaultValue});
@@ -25,8 +29,8 @@ class TioTokenRefreshResult {
 }
 
 /// For personal use. Weak configurable and not fully tested
-abstract base class TioRefreshableAuthInterceptor<R, ERR>
-    extends TioInterceptor<ERR> {
+abstract base class TioRefreshableAuthInterceptor<T, E>
+    extends TioInterceptor<E> {
   const TioRefreshableAuthInterceptor({required super.client});
 
   Logger get logger => Logger(loggerName);
@@ -37,11 +41,13 @@ abstract base class TioRefreshableAuthInterceptor<R, ERR>
 
   TioTokenKey get refreshTokenKey;
 
-  bool isTokenExpired(Response<dynamic> response, ERR error);
+  bool isTokenExpired(Response<dynamic> response, E error);
 
-  Future<TioResponse<R, ERR>> refreshToken(String refreshToken);
+  Future<TioResponse<T, E>> refreshToken(String refreshToken);
 
-  TioTokenRefreshResult getRefreshTokenResult(TioSuccess<R, ERR> success);
+  TioTokenRefreshResult getRefreshTokenResult(
+    TioSuccess<T, E> success,
+  );
 
   RequestOptions setAccessToken(RequestOptions options, String accessToken) {
     final headers = {
@@ -96,12 +102,13 @@ abstract base class TioRefreshableAuthInterceptor<R, ERR>
       );
     }
 
+    /// @TODO(urusai88): make this actions more configurable
     switch (await this.refreshToken(refreshToken)) {
-      case final TioSuccess<R, ERR> result:
+      case final TioSuccess<T, E> result:
         final data = getRefreshTokenResult(result);
         await accessTokenKey.set(data.accessToken);
         await refreshTokenKey.set(data.refreshToken);
-      case final TioFailure<R, ERR> _:
+      case final TioFailure<T, E> _:
         await accessTokenKey.delete();
         await refreshTokenKey.delete();
     }

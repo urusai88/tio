@@ -2,30 +2,30 @@ import 'package:dio/dio.dart';
 
 import 'typedefs.dart';
 
-sealed class TioResponse<R, ERR> {
+sealed class TioResponse<T, E> {
   const TioResponse._({required this.response});
 
   const factory TioResponse.success({
     required Response<dynamic>? response,
-    required R result,
+    required T result,
   }) = TioSuccess._;
 
   const factory TioResponse.failure({
     required Response<dynamic>? response,
-    required ERR error,
+    required E error,
   }) = TioFailure._;
 
   final Response<dynamic>? response;
 
-  TioResponse<R1, ERR> withSuccess<R1>(
-    TioResultTransformer<R, ERR, R1> builder,
+  TioResponse<R, E> withSuccess<R>(
+    TioResultTransformer<T, E, R> builder,
   ) {
     return switch (this) {
-      final TioSuccess<R, ERR> success => TioResponse<R1, ERR>.success(
+      final TioSuccess<T, E> success => TioResponse<R, E>.success(
           response: response,
           result: builder(success),
         ),
-      final TioFailure<R, ERR> failure => TioResponse<R1, ERR>.failure(
+      final TioFailure<T, E> failure => TioResponse<R, E>.failure(
           response: response,
           error: failure.error,
         ),
@@ -33,11 +33,11 @@ sealed class TioResponse<R, ERR> {
   }
 }
 
-final class TioSuccess<R, ERR> extends TioResponse<R, ERR> {
+final class TioSuccess<T, E> extends TioResponse<T, E> {
   const TioSuccess._({required super.response, required this.result})
       : super._();
 
-  final R result;
+  final T result;
 
   @override
   String toString() {
@@ -49,11 +49,11 @@ final class TioSuccess<R, ERR> extends TioResponse<R, ERR> {
   }
 }
 
-final class TioFailure<R, ERR> extends TioResponse<R, ERR> {
+final class TioFailure<T, E> extends TioResponse<T, E> {
   const TioFailure._({required super.response, required this.error})
       : super._();
 
-  final ERR error;
+  final E error;
 
   @override
   String toString() {

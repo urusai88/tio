@@ -4,8 +4,8 @@ import 'client.dart';
 
 export 'interceptors/refreshable_auth_interceptor.dart';
 
-class TioInterceptor<ERR> extends Interceptor {
+class TioInterceptor<E> extends Interceptor {
   const TioInterceptor({required this.client});
 
-  final Tio<ERR> client;
+  final Tio<E> client;
 }

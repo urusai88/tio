@@ -1,25 +1,25 @@
 import 'typedefs.dart';
 
-class TioFactoryGroup<ERR> {
+class TioFactoryGroup<E> {
   const TioFactoryGroup({
     required this.empty,
     required this.string,
     required this.json,
   });
 
-  final TioEmptyFactory<ERR> empty;
-  final TioStringFactory<ERR> string;
-  final TioJsonFactory<ERR> json;
+  final TioEmptyFactory<E> empty;
+  final TioStringFactory<E> string;
+  final TioJsonFactory<E> json;
 }
 
-class TioFactoryConfig<ERR> {
+class TioFactoryConfig<E> {
   const TioFactoryConfig({
     required this.jsonFactoryList,
     required this.errorGroup,
   });
 
   final List<TioJsonFactory<dynamic>> jsonFactoryList;
-  final TioFactoryGroup<ERR> errorGroup;
+  final TioFactoryGroup<E> errorGroup;
 
   TioJsonFactory<T>? get<T>() =>
       jsonFactoryList.whereType<TioJsonFactory<T>>().firstOrNull;

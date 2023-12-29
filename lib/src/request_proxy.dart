@@ -6,7 +6,7 @@ import 'client.dart';
 import 'response.dart';
 import 'typedefs.dart';
 
-class TioRequestProxy<T, ERR> {
+class TioRequestProxy<T, E> {
   const TioRequestProxy(
     this.client,
     this.path, {
@@ -17,10 +17,9 @@ class TioRequestProxy<T, ERR> {
     this.cancelToken,
     this.onSendProgress,
     this.onReceiveProgress,
-    // this.extra,
   });
 
-  final Tio<ERR> client;
+  final Tio<E> client;
 
   final String path;
   final String method;
@@ -30,11 +29,10 @@ class TioRequestProxy<T, ERR> {
   final CancelToken? cancelToken;
   final ProgressCallback? onSendProgress;
   final ProgressCallback? onReceiveProgress;
-  // final TioRequestExtra? extra;
 
-  Future<TioResponse<R, ERR>> _call<R, D>(
+  Future<TioResponse<R, E>> _call<R, D>(
     ResponseType responseType,
-    TioResponseTransformer<R, ERR, D> transformer,
+    TioResponseTransformer<R, E, D> transformer,
   ) =>
       client.request<R, D>(
         path,
@@ -49,24 +47,23 @@ class TioRequestProxy<T, ERR> {
         cancelToken: cancelToken,
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
-        // extra: extra,
       );
 
-  Future<TioResponse<T, ERR>> one() =>
+  Future<TioResponse<T, E>> one() =>
       _call<T, JSON>(ResponseType.json, client.transformOne);
 
-  Future<TioResponse<List<T>, ERR>> many() =>
+  Future<TioResponse<List<T>, E>> many() =>
       _call<List<T>, List<dynamic>>(ResponseType.json, client.transformMany);
 
-  Future<TioResponse<Uint8List, ERR>> bytes() =>
+  Future<TioResponse<Uint8List, E>> bytes() =>
       _call(ResponseType.bytes, client.transformBytes);
 
-  Future<TioResponse<ResponseBody, ERR>> stream() =>
+  Future<TioResponse<ResponseBody, E>> stream() =>
       _call(ResponseType.stream, client.transformStream);
 
-  Future<TioResponse<String, ERR>> string() =>
+  Future<TioResponse<String, E>> string() =>
       _call(ResponseType.plain, client.transformString);
 
-  Future<TioResponse<void, ERR>> empty() =>
+  Future<TioResponse<void, E>> empty() =>
       _call(ResponseType.plain, client.transformEmpty);
 }

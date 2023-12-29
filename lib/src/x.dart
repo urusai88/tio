@@ -3,9 +3,12 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 
 extension ListX on List<dynamic> {
-  bool check<R>() => every((item) => item is R);
+  /// Checks every item is type of T.
+  bool check<T>() => every((item) => item is T);
 
-  List<R>? castChecked<R>() => check<R>() ? List<R>.from(this) : null;
+  /// Cast self to List<T> if every item is type of T.
+  /// Otherwise returns null.
+  List<T>? castChecked<T>() => check<T>() ? List<T>.from(this) : null;
 }
 
 extension ResponseX<T> on Response<T> {
