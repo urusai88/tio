@@ -11,14 +11,16 @@ import 'x.dart';
 class Tio<E> {
   const Tio({required this.dio, required this.factoryConfig});
 
-  Tio.withInterceptors({
-    required this.dio,
-    required this.factoryConfig,
+  factory Tio.withInterceptors({
+    required Dio dio,
+    required TioFactoryConfig<E> factoryConfig,
     List<TioInterceptorBuilder<E>> builders = const [],
   }) {
+    final tio = Tio(dio: dio, factoryConfig: factoryConfig);
     for (final builder in builders) {
-      dio.interceptors.add(builder(this));
+      dio.interceptors.add(builder(tio));
     }
+    return tio;
   }
 
   final Dio dio;
