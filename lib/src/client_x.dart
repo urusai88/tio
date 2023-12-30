@@ -66,6 +66,23 @@ extension TioClientX<E> on Tio<E> {
         onSendProgress: onSendProgress,
       );
 
+  TioRequestProxy<T, E> head<T>(
+    String path, {
+    Object? data,
+    JSON? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+  }) =>
+      TioRequestProxy(
+        this,
+        path,
+        method: 'HEAD',
+        data: data,
+        queryParameters: queryParameters,
+        options: options,
+        cancelToken: cancelToken,
+      );
+
   TioRequestProxy<T, E> patch<T>(
     String path, {
     Object? data,

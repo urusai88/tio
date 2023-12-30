@@ -49,6 +49,20 @@ Future<void> _serverListener(HttpRequest req) async {
   final segments = req.uri.pathSegments.map((e) => e.toLowerCase()).toList();
 
   switch (segments) {
+    case ['method']:
+      final method = switch (req.method.toUpperCase().trim()) {
+        'GET' => 'GET',
+        'POST' => 'POST',
+        'PUT' => 'PUT',
+        'HEAD' => 'HEAD',
+        'PATCH' => 'PATCH',
+        'DELETE' => 'DELETE',
+        _ => 'UNKNOWN METHOD ${req.method}',
+      };
+      if (req.method.toUpperCase().trim() == 'GET') {
+        resp.headers.set('X-GET', 'TRUE');
+      }
+      resp.write(method);
     case ['long_job']:
       await Future<void>.delayed(const Duration(seconds: 10));
     case ['posts']:
@@ -99,6 +113,8 @@ Future<void> _serverListener(HttpRequest req) async {
     case ['404_json']:
       resp.statusCode = errorCode;
       _writeJson(resp, errorJson, sendStatusCode: false);
+    case _:
+      resp.write('UNKNOWN SEGMENTS $segments');
   }
 
   await resp.close();

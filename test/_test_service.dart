@@ -8,6 +8,24 @@ import '_typedefs.dart';
 class TestTioService extends TioService<MyResponseError> {
   const TestTioService({required super.client});
 
+  Future<MyResponse<String>> methodGet() =>
+      client.get<String>('/method').string();
+
+  Future<MyResponse<String>> methodPost() =>
+      client.post<String>('/method').string();
+
+  Future<MyResponse<String>> methodPut() =>
+      client.put<String>('/method').string();
+
+  Future<MyResponse<String>> methodHead() =>
+      client.head<String>('/method').string();
+
+  Future<MyResponse<String>> methodPatch() =>
+      client.patch<String>('/method').string();
+
+  Future<MyResponse<String>> methodDelete() =>
+      client.delete<String>('/method').string();
+
   Future<MyResponse<void>> long(CancelToken cancelToken) =>
       client.get<void>('/long_job', cancelToken: cancelToken).empty();
 
