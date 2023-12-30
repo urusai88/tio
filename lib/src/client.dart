@@ -101,13 +101,9 @@ class Tio<E> {
 
   E transformError(Response<dynamic> resp) {
     final group = factoryConfig.errorGroup;
-    final data = resp.data;
-    if (data == null || ((data is String) && data.isEmpty)) {
-      return group.empty();
-    }
 
     try {
-      return switch (data) {
+      return switch (resp.data) {
         final String string when string.isEmpty => group.empty(),
         final String string => group.string(string),
         final JSON json => group.json(json),
