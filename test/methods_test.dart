@@ -11,17 +11,20 @@ void main() {
       () async => expect(
         fn(),
         completion(
-          isA<MySuccess<String>>().having((s) => s.result, 'result',
-              predicate((result) {
-            if (method == 'HEAD') {
-              return result == '';
-            }
-            return result == method;
-          })).having(
-            (s) => s.response?.requestOptions.method,
-            'response.requestOptions.method',
-            method,
-          ),
+          isA<MySuccess<String>>()
+              .having(
+                (s) => s.result,
+                'result',
+                predicate(
+                  (result) =>
+                      method == 'HEAD' ? result == '' : result == method,
+                ),
+              )
+              .having(
+                (s) => s.response?.requestOptions.method,
+                'response.requestOptions.method',
+                method,
+              ),
         ),
       ),
     );

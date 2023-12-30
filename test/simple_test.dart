@@ -26,12 +26,14 @@ void main() {
   });
 
   test('tio response', () {
-    const success = TioResponse<String, int>.success(
+    // ignore: prefer_const_declarations
+    final success = const TioResponse<String, int>.success(
       response: null,
       result: 'result',
     );
 
-    const failure = TioResponse<String, int>.failure(
+    // ignore: prefer_const_declarations
+    final failure = const TioResponse<String, int>.failure(
       response: null,
       error: 1,
     );
