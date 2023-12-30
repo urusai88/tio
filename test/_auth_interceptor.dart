@@ -48,4 +48,12 @@ final class TestAuthInterceptor extends TioRefreshableAuthInterceptor<
         accessToken: success.result.a,
         refreshToken: success.result.r,
       );
+
+  @override
+  Future<void> onFailureRefresh(
+    TioFailure<RefreshTokenResponse, MyResponseError> failure,
+  ) async {
+    await accessTokenKey.delete();
+    await refreshTokenKey.delete();
+  }
 }

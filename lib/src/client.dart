@@ -143,7 +143,12 @@ class Tio<E> {
           error: transformError(e.response!),
         );
       }
+      if (e.type == DioExceptionType.unknown && e.error is TioException) {
+        Error.throwWithStackTrace(e.error!, e.stackTrace);
+      }
       throw TioException.dio(dioException: e, stackTrace: s);
+    } on TioException catch (e, s) {
+      rethrow;
     }
   }
 

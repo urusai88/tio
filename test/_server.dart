@@ -10,8 +10,8 @@ const serverPort = 9000;
 
 const accessTokenStale = 'stale';
 const accessTokenFresh = 'fresh';
-const badTokenMessage = 'please refresh token';
-const goodTokenMessage = 'refresh token is fine';
+const badTokenMessage = 'please refresh access token';
+const goodTokenMessage = 'access token is fine';
 
 const errorCode = HttpStatus.notFound;
 const errorEmpty = 'Unknown error';
@@ -104,7 +104,6 @@ Future<void> _serverListener(HttpRequest req) async {
         resp,
         const RefreshTokenResponse(a: accessTokenFresh, r: 'refresh_token'),
       );
-
     case ['404_empty']:
       resp.statusCode = errorCode;
     case ['404_string']:

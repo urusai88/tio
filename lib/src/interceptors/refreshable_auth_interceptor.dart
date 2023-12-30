@@ -47,6 +47,8 @@ abstract base class TioRefreshableAuthInterceptor<T, E>
     TioSuccess<T, E> success,
   );
 
+  Future<void> onFailureRefresh(TioFailure<T, E> failure);
+
   RequestOptions setAccessToken(RequestOptions options, String accessToken) {
     final headers = {
       ...options.headers,
@@ -87,16 +89,28 @@ abstract base class TioRefreshableAuthInterceptor<T, E>
     logger.info(
       'refreshing token, data.runtimeType: ${_dataToString(response.data)}',
     );
-    await _refreshToken();
-    handler.resolve(await client.dio.restart(response));
+    await _refreshToken(err, handler);
+    if (!handler.isCompleted) {
+      handler.resolve(await client.dio.restart(response));
+    }
   }
 
-  Future<void> _refreshToken() async {
+  Future<void> _refreshToken(
+    DioException err,
+    ErrorInterceptorHandler handler,
+  ) async {
     final refreshToken = await refreshTokenKey.get();
     if (refreshToken == null) {
       logger.severe('refreshToken: $refreshToken');
-      throw const TioException.middleware(
-        message: 'refreshToken is null',
+      return handler.reject(
+        DioException(
+          requestOptions: err.requestOptions,
+          response: err.response,
+          error: const TioException.middleware(
+            message: 'refreshToken is null',
+          ),
+          stackTrace: StackTrace.current,
+        ),
       );
     }
 
@@ -106,9 +120,8 @@ abstract base class TioRefreshableAuthInterceptor<T, E>
         final data = getRefreshTokenResult(result);
         await accessTokenKey.set(data.accessToken);
         await refreshTokenKey.set(data.refreshToken);
-      case final TioFailure<T, E> _:
-        await accessTokenKey.delete();
-        await refreshTokenKey.delete();
+      case final TioFailure<T, E> failure:
+        await onFailureRefresh(failure);
     }
   }
 

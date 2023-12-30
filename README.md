@@ -30,7 +30,7 @@ class MyError {
 
   const MyError.empty() : errorMessage = 'Unknown message';
 
-  MyError.fromJson(JSON json) : errorMessage = json['message'] as String;
+  MyError.fromJson(Map<String, dynamic> json) : errorMessage = json['message'] as String;
 
   final String errorMessage;
 }
@@ -84,7 +84,7 @@ Future<TioResponse<List<User>, MyError>> getUsers() =>
 Future<TioResponse<User, MyError>> updateUser(int id, String name) =>
     tio.post<User>('/users/$id', data: {'name': name}).one();
 
-Future<TioResponse<String, MyError>> geString() =>
+Future<TioResponse<String, MyError>> getString() =>
     tio.get<String>('/text').string();
 ```
 

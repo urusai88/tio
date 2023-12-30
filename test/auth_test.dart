@@ -1,11 +1,16 @@
 import 'dart:io';
 
 import 'package:test/test.dart';
+import 'package:tio/tio.dart';
 
 import '_internal.dart';
 
 void main() {
   upAndDownTest();
+
+  final interceptor = testService.client.dio.interceptors
+      .whereType<TestAuthInterceptor>()
+      .first;
 
   group('auth', () {
     test(
@@ -48,10 +53,8 @@ void main() {
     );
 
     test('refresh token', () async {
-      final interceptor = testService.client.dio.interceptors
-          .whereType<TestAuthInterceptor>()
-          .first;
       await interceptor.accessTokenKey.set(accessTokenStale);
+
       await expectLater(
         testService.checkAccessToken(),
         completion(
@@ -59,7 +62,24 @@ void main() {
               .having((success) => success.result, 'result', goodTokenMessage),
         ),
       );
+
       expect(await interceptor.accessTokenKey.get(), accessTokenFresh);
+    });
+
+    test('refresh token failure', () async {
+      await interceptor.accessTokenKey.set(accessTokenStale);
+      final refreshToken = (await interceptor.refreshTokenKey.get())!;
+      await interceptor.refreshTokenKey.delete();
+      await expectLater(
+        testService.checkAccessToken(),
+        throwsA(
+          isA<TioException>()
+              .having((e) => e.type, 'type', TioExceptionType.middleware),
+        ),
+      );
+      expect(await interceptor.accessTokenKey.get(), accessTokenStale);
+      await interceptor.accessTokenKey.set(accessTokenFresh);
+      await interceptor.refreshTokenKey.set(refreshToken);
     });
   });
 }
