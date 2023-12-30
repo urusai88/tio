@@ -1,8 +1,12 @@
 import 'package:equatable/equatable.dart';
 import 'package:tio/tio.dart';
 
+import '_internal.dart';
+
 class MyResponseError with EquatableMixin {
-  const MyResponseError(this.message);
+  const MyResponseError.fromString(this.message);
+
+  const MyResponseError.empty() : message = errorEmpty;
 
   MyResponseError.fromJson(JSON json) : message = json['message'] as String;
 

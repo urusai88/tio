@@ -1,3 +1,7 @@
+## 0.5.0
+- update README.md
+- changes in error factories
+
 ## 0.4.0
 - update README.md
 - update analysis_options.yaml

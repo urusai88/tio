@@ -103,15 +103,15 @@ class Tio<E> {
     final group = factoryConfig.errorGroup;
     final data = resp.data;
     if (data == null || ((data is String) && data.isEmpty)) {
-      return group.empty(resp);
+      return group.empty();
     }
 
     try {
       return switch (data) {
-        final String string when string.isEmpty => group.empty(resp),
+        final String string when string.isEmpty => group.empty(),
         final String string => group.string(string),
         final JSON json => group.json(json),
-        _ => group.empty(resp),
+        _ => group.empty(),
       };
     } catch (e, s) {
       throw TioException.middleware(message: '$e', stackTrace: s);

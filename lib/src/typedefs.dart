@@ -6,8 +6,21 @@ import 'response.dart';
 
 typedef JSON = Map<String, dynamic>;
 
-typedef TioEmptyFactory<T> = T Function(Response<dynamic>? response);
-typedef TioStringFactory<T> = T Function(String body);
+class TioEmptyFactory<T> {
+  const TioEmptyFactory(this.factory);
+
+  final T Function() factory;
+
+  T call() => factory();
+}
+
+class TioStringFactory<T> {
+  const TioStringFactory(this.factory);
+
+  final T Function(String string) factory;
+
+  T call(String string) => factory(string);
+}
 
 class TioJsonFactory<T> {
   const TioJsonFactory(this.factory);

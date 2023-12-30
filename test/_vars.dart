@@ -8,16 +8,16 @@ import '_typedefs.dart';
 
 final emptyResponse = Response<dynamic>(requestOptions: RequestOptions());
 
-final factoryConfig = TioFactoryConfig<MyResponseError>(
-  jsonFactoryList: const [
+const factoryConfig = TioFactoryConfig<MyResponseError>(
+  jsonFactoryList: [
     TioJsonFactory<Todo>(Todo.fromJson),
     TioJsonFactory<User>(User.fromJson),
     TioJsonFactory<RefreshTokenResponse>(RefreshTokenResponse.fromJson),
   ],
   errorGroup: TioFactoryGroup(
-    empty: (response) => const MyResponseError(errorEmpty),
-    string: MyResponseError.new,
-    json: const TioJsonFactory(MyResponseError.fromJson),
+    empty: TioEmptyFactory(MyResponseError.empty),
+    string: TioStringFactory(MyResponseError.fromString),
+    json: TioJsonFactory(MyResponseError.fromJson),
   ),
 );
 

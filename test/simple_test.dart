@@ -10,8 +10,8 @@ void main() {
         TioJsonFactory<User>(User.fromJson),
       ],
       errorGroup: TioFactoryGroup(
-        empty: (_) => 0,
-        string: (string) => int.tryParse(string) ?? 0,
+        empty: TioEmptyFactory(() => 0),
+        string: TioStringFactory((string) => int.tryParse(string) ?? 0),
         json: TioJsonFactory((json) => json['code'] as int),
       ),
     );
@@ -20,7 +20,7 @@ void main() {
     expect(factoryConfig.contains<Todo>(), isFalse);
     expect(factoryConfig.get<User>(), isNotNull);
     expect(factoryConfig.get<Todo>(), isNull);
-    expect(factoryConfig.errorGroup.empty(emptyResponse), 0);
+    expect(factoryConfig.errorGroup.empty(), 0);
     expect(factoryConfig.errorGroup.string('123'), 123);
     expect(factoryConfig.errorGroup.json(const {'code': 312}), 312);
   });

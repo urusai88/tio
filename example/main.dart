@@ -1,5 +1,4 @@
 // ignore_for_file: avoid_print
-
 import 'package:tio/tio.dart'; // 'package:dio.dio.dart' imports implicitly.
 
 class User {
@@ -9,24 +8,25 @@ class User {
 }
 
 class MyError {
-  const MyError(this.errorMessage);
+  const MyError.fromString(this.errorMessage);
 
-  MyError.fromJson(Map<String, dynamic> json)
-      : errorMessage = json['error_message'] as String;
+  const MyError.empty() : errorMessage = 'Unknown message';
+
+  MyError.fromJson(JSON json) : errorMessage = json['message'] as String;
 
   final String errorMessage;
 }
 
-final factoryConfig = TioFactoryConfig<MyError>(
-  jsonFactoryList: const [
-    TioJsonFactory(User.fromJson),
+const factoryConfig = TioFactoryConfig<MyError>(
+  jsonFactoryList: [
+    TioJsonFactory<User>(User.fromJson),
   ],
   // Factory for error transformation
   errorGroup: TioFactoryGroup(
-    empty: (response) =>
-        const MyError('Unknown error'), // when responce body is empty
-    string: MyError.new, // string
-    json: const TioJsonFactory(MyError.fromJson), // or json
+    // when response body is empty (or empty string)
+    empty: TioEmptyFactory(MyError.empty),
+    string: TioStringFactory(MyError.fromString), // string
+    json: TioJsonFactory(MyError.fromJson), // or json
   ),
 );
 
@@ -47,6 +47,7 @@ Future<TioResponse<User, MyError>> updateUser(int id, String name) =>
 
 Future<TioResponse<String, MyError>> geString() =>
     tio.get<String>('/text').string();
+
 void main() async {
   switch (await getUser(1)) {
     case TioSuccess<User, MyError>(result: final user):

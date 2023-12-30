@@ -17,38 +17,40 @@ Inspired by [chopper](https://pub.dev/packages/chopper).
  
 #### Basic usage:
 ```dart
-import 'package:tio/tio.dart'; // 'package:dio/dio.dart' imports implicitly.
+import 'package:tio/tio.dart'; // 'package:dio.dio.dart' imports implicitly.
 
 class User {
   User.fromJson(Map<String, dynamic> json) : id = json['id'] as int;
 
   final int id;
 }
-  
-class MyError {
-  const MyError(this.errorMessage);
 
-  MyError.fromJson(Map<String, dynamic> json)
-      : errorMessage = json['error_message'] as String;
+class MyError {
+  const MyError.fromString(this.errorMessage);
+
+  const MyError.empty() : errorMessage = 'Unknown message';
+
+  MyError.fromJson(JSON json) : errorMessage = json['message'] as String;
 
   final String errorMessage;
 }
 
-final factoryConfig = TioFactoryConfig<MyError>(
-  jsonFactoryList: const [
+const factoryConfig = TioFactoryConfig<MyError>(
+  jsonFactoryList: [
     TioJsonFactory<User>(User.fromJson),
   ],
-  // Factories for error transformation
+  // Factory for error transformation
   errorGroup: TioFactoryGroup(
-    empty: (response) => const MyError('Unknown error'), // when response body is empty (or empty string)
-    string: MyError.new, // string
-    json: const TioJsonFactory<MyError>(MyError.fromJson), // or json
+    // when response body is empty (or empty string)
+    empty: TioEmptyFactory(MyError.empty),
+    string: TioStringFactory(MyError.fromString), // string
+    json: TioJsonFactory(MyError.fromJson), // or json
   ),
 );
 
 final dio = Dio();
 final tio = Tio<MyError>(
-  dio: dio, // Tio uses Dio under the hood
+  dio: dio, // Tio uses dio under the hood
   factoryConfig: factoryConfig,
 );
 
@@ -63,6 +65,7 @@ void main() async {
       print('error acquired ${error.errorMessage}');
   }
 }
+
 ```
 
 ## Guide
