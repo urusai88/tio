@@ -1,3 +1,6 @@
+## 0.6.0
+- remove Response.contentType extension getter for web compability
+
 ## 0.5.0
 - update README.md
 - changes in error factories

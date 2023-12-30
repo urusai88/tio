@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:dio/dio.dart';
 
 extension ListX on List<dynamic> {
@@ -9,16 +7,6 @@ extension ListX on List<dynamic> {
   /// Cast self to List<T> if every item is type of T.
   /// Otherwise returns null.
   List<T>? castChecked<T>() => check<T>() ? List<T>.from(this) : null;
-}
-
-extension ResponseX<T> on Response<T> {
-  ContentType? get contentType {
-    final value = headers[Headers.contentTypeHeader]?.firstOrNull;
-    if (value != null) {
-      return ContentType.parse(value);
-    }
-    return null;
-  }
 }
 
 extension RequestOptionsX on RequestOptions {
