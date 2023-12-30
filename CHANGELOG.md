@@ -1,3 +1,11 @@
+## 0.4.0
+- update README.md
+- update analysis_options.yaml
+- more informative TioError error
+- Tio.withInterceptors now factory constructor
+- added head method
+- added some tests
+
 ## 0.3.0
 - update README.md
 - update pubspec.yaml topics
