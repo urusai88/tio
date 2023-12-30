@@ -1,3 +1,6 @@
+## 0.6.1
+- fix web compability
+
 ## 0.6.0
 - remove Response.contentType extension getter for web compability
 

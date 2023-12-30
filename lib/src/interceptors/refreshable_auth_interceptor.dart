@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:logging/logging.dart';
 
@@ -52,7 +50,7 @@ abstract base class TioRefreshableAuthInterceptor<T, E>
   RequestOptions setAccessToken(RequestOptions options, String accessToken) {
     final headers = {
       ...options.headers,
-      HttpHeaders.authorizationHeader: accessToken,
+      'authorization': accessToken,
     };
 
     // Because [RequestOptions] overloads [RequestOptions.headers] setter.
