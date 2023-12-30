@@ -112,7 +112,7 @@ void main() async {
 }
 ```
 
-Also Tio can throw `TioError` if requested factory does not registered. It must be avoided in release.
+Also Tio can throw `TioError` if requested factory did not registered. It must be avoided in release.
 
 #### Tips & Tricks
 
