@@ -29,6 +29,12 @@ void main() {
                         '$success' ==
                         'TioSuccess(result: ${success.result}, statusCode: ${success.response?.statusCode})',
                   ),
+                )
+                .having(
+                  (success) =>
+                      success.map(success: (_) => true, failure: (_) => false),
+                  'map',
+                  equals(true),
                 ),
           ),
         ),
@@ -64,6 +70,12 @@ void main() {
                         '$failure' ==
                         'TioFailure(error: ${failure.error}, statusCode: ${failure.response?.statusCode})',
                   ),
+                )
+                .having(
+                  (success) =>
+                      success.map(success: (_) => true, failure: (_) => false),
+                  'map',
+                  equals(false),
                 ),
           ),
         ),
