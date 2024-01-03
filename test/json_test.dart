@@ -34,7 +34,7 @@ void main() {
                   (success) =>
                       success.map(success: (_) => true, failure: (_) => false),
                   'map',
-                  equals(true),
+                  isTrue,
                 ),
           ),
         ),
@@ -75,7 +75,7 @@ void main() {
                   (success) =>
                       success.map(success: (_) => true, failure: (_) => false),
                   'map',
-                  equals(false),
+                  isFalse,
                 ),
           ),
         ),
