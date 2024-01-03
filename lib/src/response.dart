@@ -17,20 +17,12 @@ sealed class TioResponse<T, E> {
 
   final Response<dynamic>? response;
 
-  TioResponse<R, E> withSuccess<R>(
-    TioResultTransformer<T, E, R> builder,
-  ) {
-    return switch (this) {
-      final TioSuccess<T, E> success => TioResponse<R, E>.success(
-          response: response,
-          result: builder(success),
-        ),
-      final TioFailure<T, E> failure => TioResponse<R, E>.failure(
-          response: response,
-          error: failure.error,
-        ),
-    };
-  }
+  TioResponse<R, E> withSuccess<R>(TioResultTransformer<T, E, R> builder);
+
+  R map<R>({
+    required R Function(TioSuccess<T, E> success) success,
+    required R Function(TioFailure<T, E> failure) failure,
+  });
 }
 
 final class TioSuccess<T, E> extends TioResponse<T, E> {
@@ -39,16 +31,25 @@ final class TioSuccess<T, E> extends TioResponse<T, E> {
 
   final T result;
 
-  // coverage:ignore-start
+  @override
+  TioResponse<R, E> withSuccess<R>(TioResultTransformer<T, E, R> builder) =>
+      TioResponse<R, E>.success(response: response, result: builder(this));
+
+  @override
+  R map<R>({
+    required R Function(TioSuccess<T, E> success) success,
+    required R Function(TioFailure<T, E> failure) failure,
+  }) =>
+      success(this);
+
   @override
   String toString() {
-    return '''
-    TioSuccess
-    result: $result
-    statusCode: ${response?.statusCode}
-    ''';
+    final content = [
+      'result: $result',
+      'statusCode: ${response?.statusCode}',
+    ].join(', ');
+    return 'TioSuccess($content)';
   }
-// coverage:ignore-end
 }
 
 final class TioFailure<T, E> extends TioResponse<T, E> {
@@ -57,14 +58,23 @@ final class TioFailure<T, E> extends TioResponse<T, E> {
 
   final E error;
 
-  // coverage:ignore-start
+  @override
+  TioResponse<R, E> withSuccess<R>(TioResultTransformer<T, E, R> builder) =>
+      TioResponse<R, E>.failure(response: response, error: error);
+
+  @override
+  R map<R>({
+    required R Function(TioSuccess<T, E> success) success,
+    required R Function(TioFailure<T, E> failure) failure,
+  }) =>
+      failure(this);
+
   @override
   String toString() {
-    return '''
-    TioFailure
-    error: $error
-    statusCode: ${response?.statusCode}
-    ''';
+    final content = [
+      'error: $error',
+      'statusCode: ${response?.statusCode}',
+    ].join(', ');
+    return 'TioFailure($content)';
   }
-// coverage:ignore-end
 }

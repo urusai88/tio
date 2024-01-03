@@ -15,11 +15,21 @@ void main() {
         () async => expect(
           testService.todos(),
           completion(
-            isA<MySuccess<List<Todo>>>().having(
-              (success) => success.result,
-              'result',
-              unorderedEquals(todos),
-            ),
+            isA<MySuccess<List<Todo>>>()
+                .having(
+                  (success) => success.result,
+                  'result',
+                  unorderedEquals(todos),
+                )
+                .having(
+                  (success) => success,
+                  'toString',
+                  predicate<MySuccess<List<Todo>>>(
+                    (success) =>
+                        '$success' ==
+                        'TioSuccess(result: ${success.result}, statusCode: ${success.response?.statusCode})',
+                  ),
+                ),
           ),
         ),
       );
@@ -40,11 +50,21 @@ void main() {
         () async => expect(
           testService.todo(0),
           completion(
-            isA<MyFailure<Todo>>().having(
-              (failure) => failure.response?.statusCode,
-              'error',
-              HttpStatus.notFound,
-            ),
+            isA<MyFailure<Todo>>()
+                .having(
+                  (failure) => failure.response?.statusCode,
+                  'error',
+                  HttpStatus.notFound,
+                )
+                .having(
+                  (failure) => failure,
+                  'toString',
+                  predicate<MyFailure<Todo>>(
+                    (failure) =>
+                        '$failure' ==
+                        'TioFailure(error: ${failure.error}, statusCode: ${failure.response?.statusCode})',
+                  ),
+                ),
           ),
         ),
       );

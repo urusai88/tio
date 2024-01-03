@@ -54,7 +54,6 @@ void main() {
 
     test('refresh token', () async {
       await interceptor.accessTokenKey.set(accessTokenStale);
-
       await expectLater(
         testService.checkAccessToken(),
         completion(
@@ -62,13 +61,15 @@ void main() {
               .having((success) => success.result, 'result', goodTokenMessage),
         ),
       );
-
-      expect(await interceptor.accessTokenKey.get(), accessTokenFresh);
+      await expectLater(
+        interceptor.accessTokenKey.get(),
+        completion(accessTokenFresh),
+      );
     });
 
     test('refresh token failure', () async {
-      await interceptor.accessTokenKey.set(accessTokenStale);
       final refreshToken = (await interceptor.refreshTokenKey.get())!;
+      await interceptor.accessTokenKey.set(accessTokenStale);
       await interceptor.refreshTokenKey.delete();
       await expectLater(
         testService.checkAccessToken(),
@@ -77,7 +78,10 @@ void main() {
               .having((e) => e.type, 'type', TioExceptionType.middleware),
         ),
       );
-      expect(await interceptor.accessTokenKey.get(), accessTokenStale);
+      await expectLater(
+        interceptor.accessTokenKey.get(),
+        completion(accessTokenStale),
+      );
       await interceptor.accessTokenKey.set(accessTokenFresh);
       await interceptor.refreshTokenKey.set(refreshToken);
     });
