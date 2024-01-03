@@ -147,8 +147,6 @@ class Tio<E> {
         Error.throwWithStackTrace(e.error!, e.stackTrace);
       }
       throw TioException.dio(dioException: e, stackTrace: s);
-    } on TioException catch (e, s) {
-      rethrow;
     }
   }
 

@@ -1,3 +1,6 @@
+## 0.7.1
+- fix static analysis
+
 ## 0.7.0
 - update README.md
 - added RefreshableAuthInterceptor.onFailureRefresh
