@@ -1,3 +1,10 @@
+## 0.7.0
+- update README.md
+- added RefreshableAuthInterceptor.onFailureRefresh
+- added TioResponse.map map
+- fix TioExceptions thrown from interceptors
+- refactor TioResponse.withSuccess method
+
 ## 0.6.1
 - fix web compability
 
