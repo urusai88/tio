@@ -63,9 +63,9 @@ abstract base class TioAuthInterceptor<T, E> extends TioInterceptor<E> {
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) async {
-    final accessToken = await accessTokenKey.get();
-    if (accessToken != null && accessToken.isNotEmpty) {
-      if (options.enableAuth) {
+    if (options.enableAuth) {
+      final accessToken = await accessTokenKey.get();
+      if (accessToken != null && accessToken.isNotEmpty) {
         options = setAccessToken(options, accessToken);
       }
     }
