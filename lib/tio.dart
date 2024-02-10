@@ -9,4 +9,4 @@ export 'src/response.dart';
 export 'src/service.dart';
 export 'src/tio.dart';
 export 'src/typedefs.dart';
-export 'src/x.dart';
+export 'src/x.dart' hide ListX;
