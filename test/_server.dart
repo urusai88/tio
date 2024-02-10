@@ -113,6 +113,7 @@ Future<void> _serverListener(HttpRequest req) async {
       resp.statusCode = errorCode;
       _writeJson(resp, errorJson, sendStatusCode: false);
     case _:
+      resp.statusCode = HttpStatus.badRequest;
       resp.write('UNKNOWN SEGMENTS $segments');
   }
 

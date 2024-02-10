@@ -5,7 +5,7 @@ import 'package:tio/tio.dart';
 import '_entities.dart';
 import '_typedefs.dart';
 
-class TestTioService extends TioService<MyResponseError> {
+class TestTioService extends TioApi<MyResponseError> {
   const TestTioService({required super.tio});
 
   Future<MyResponse<String>> methodGet() => tio.get<String>('/method').string();
@@ -37,6 +37,8 @@ class TestTioService extends TioService<MyResponseError> {
 
   Future<MyResponse<List<Todo>>> todos() => tio.get<Todo>('/todos').many();
 
+  Future<MyResponse<Todo>> todo(int id) => tio.get<Todo>('/todos/$id').one();
+
   Future<MyResponse<ResponseBody>> todosAsStream() =>
       tio.get<ResponseBody>('/todos').stream();
 
@@ -47,8 +49,6 @@ class TestTioService extends TioService<MyResponseError> {
       tio.get<String>('/todos').bytes();
 
   Future<MyResponse<void>> todosAsEmpty() => tio.get<void>('/todos').empty();
-
-  Future<MyResponse<Todo>> todo(int id) => tio.get<Todo>('/todos/$id').one();
 
   Future<MyResponse<User>> user(int id, {bool enableAuth = true}) => tio
       .get<User>('/users/$id', options: Options()..enableAuth = enableAuth)
@@ -66,4 +66,16 @@ class TestTioService extends TioService<MyResponseError> {
       tio.get<User>('/404_string').one();
 
   Future<MyResponse<User>> error404json() => tio.get<User>('/404_json').one();
+}
+
+class TestTioApiWithPath extends TioApi<MyResponseError> {
+  TestTioApiWithPath({required super.tio}) : super(path: '/todos');
+
+  Future<MyResponse<List<Todo>>> todos() => get<Todo>('/').many();
+
+  Future<MyResponse<List<Todo>>> todos2() => get<Todo>('').many();
+
+  Future<MyResponse<Todo>> todo(int id) => get<Todo>('/$id').one();
+
+  Future<MyResponse<Todo>> todo2(int id) => get<Todo>('$id').one();
 }

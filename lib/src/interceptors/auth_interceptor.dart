@@ -105,10 +105,9 @@ abstract base class TioAuthInterceptor<T, E> extends TioInterceptor<E> {
         DioException(
           requestOptions: err.requestOptions,
           response: err.response,
-          error: const TioException.middleware(
-            message: 'refreshToken is null',
-          ),
+          error: const TioError.transform(),
           stackTrace: StackTrace.current,
+          message: 'refreshToken is null',
         ),
       );
     }

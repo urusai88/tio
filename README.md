@@ -16,6 +16,7 @@ Inspired by [chopper](https://pub.dev/packages/chopper).
 - No external dependencies.
  
 #### Basic usage:
+
 ```dart
 import 'package:tio/tio.dart'; // 'package:dio.dio.dart' imports implicitly.
 
@@ -36,7 +37,7 @@ class MyError {
 }
 
 const factoryConfig = TioFactoryConfig<MyError>(
-  jsonFactoryList: [
+  [
     TioJsonFactory<User>(User.fromJson),
   ],
   // Factory for error transformation
@@ -88,31 +89,23 @@ Future<TioResponse<String, MyError>> getString() =>
     tio.get<String>('/text').string();
 ```
 
-#### How Tio knows that response is unsuccessful?
-With the `Options.validateStatus` property.  
-Tio transforms any `DioException` with type `badResposce` into an `ErrorT` then returns `TioFailure<..., ErrorT>` instead of throwing an exception.
-
-#### How to process exceptions and critical errors?
-Instead of `DioException` you should catch `TioException`.
-
+#### Using TioApi helper class [Optional]
 ```dart
-void main() async {
-  try {
-    await updateUser(1, 'Jack');
-  } on TioException catch (e) {
-    if (e.type == TioExceptionType.dio) {
-      // e.dioException is a DioException object. e.dioException.type can't be DioException.badResponse
-      // You can handle response canceling, timeouts and other
-    }
+class UserApi extends TioApi<MyError> {
+    UserApi({required super.tio}) : super(path: '/users');
 
-    if (e.type == TioException.middleware) {
-      // Transformation error occurs, in debug mode you should check your response factories and server response
-    }
-  }
+    Future<TioResponse<User, MyError>> getUser(int id) =>
+        get<User>('/$id').one();
+
+    Future<TioResponse<List<User>, MyError>> getUsers() =>
+        get<User>('/').many();
 }
 ```
 
-Also Tio can throw `TioError` if requested factory did not registered. It must be avoided in release.
+#### How Tio knows that response is unsuccessful?
+
+With the `Options.validateStatus` property.  
+Tio transforms any `DioException` with type `badResposce` into an `ErrorT` then returns `TioFailure<..., ErrorT>` instead of throwing an exception.
 
 #### Tips & Tricks
 

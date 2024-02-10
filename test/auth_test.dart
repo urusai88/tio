@@ -73,8 +73,8 @@ void main() {
       await expectLater(
         testService.checkAccessToken(),
         throwsA(
-          isA<TioException>()
-              .having((e) => e.type, 'type', TioExceptionType.middleware),
+          isA<DioException>()
+              .having((e) => e.error, 'error', isA<TioTransformError>()),
         ),
       );
       await expectLater(

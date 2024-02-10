@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
 
+import 'interfaces/tio_base.dart';
 import 'response.dart';
 import 'tio.dart';
 import 'typedefs.dart';
@@ -19,7 +20,7 @@ class TioRequestProxy<T, E> {
     this.onReceiveProgress,
   });
 
-  final Tio<E> client;
+  final TioBase<E> client;
 
   final String path;
   final String method;
@@ -39,7 +40,7 @@ class TioRequestProxy<T, E> {
         transformer,
         data: data,
         queryParameters: queryParameters,
-        options: client.checkOptions(
+        options: Tio.checkOptions(
           options: options,
           method: method,
           responseType: responseType,

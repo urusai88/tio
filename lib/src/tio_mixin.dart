@@ -1,10 +1,10 @@
 import 'package:dio/dio.dart';
 
+import 'interfaces/tio_base.dart';
 import 'request_proxy.dart';
-import 'tio.dart';
 import 'typedefs.dart';
 
-extension TioClientX<E> on Tio<E> {
+mixin TioMixin<E> implements TioBase<E> {
   TioRequestProxy<T, E> get<T>(
     String path, {
     Object? data,

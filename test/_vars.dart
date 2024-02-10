@@ -9,7 +9,7 @@ import '_typedefs.dart';
 final emptyResponse = Response<dynamic>(requestOptions: RequestOptions());
 
 const factoryConfig = TioFactoryConfig<MyResponseError>(
-  jsonFactoryList: [
+  [
     TioJsonFactory<Todo>(Todo.fromJson),
     TioJsonFactory<User>(User.fromJson),
     TioJsonFactory<RefreshTokenResponse>(RefreshTokenResponse.fromJson),
@@ -34,3 +34,4 @@ final tio = Tio<MyResponseError>.withInterceptors(
 );
 
 final testService = TestTioService(tio: tio);
+final testService2 = TestTioApiWithPath(tio: tio);
