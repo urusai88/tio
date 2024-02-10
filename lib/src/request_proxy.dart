@@ -2,8 +2,8 @@ import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
 
-import 'client.dart';
 import 'response.dart';
+import 'tio.dart';
 import 'typedefs.dart';
 
 class TioRequestProxy<T, E> {

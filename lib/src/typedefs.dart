@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 
-import 'client.dart';
 import 'interceptor.dart';
 import 'response.dart';
+import 'tio.dart';
 
 typedef JSON = Map<String, dynamic>;
 

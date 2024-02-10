@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 
-import 'client.dart';
+import 'tio.dart';
 
 export 'interceptors/auth_interceptor.dart';
 

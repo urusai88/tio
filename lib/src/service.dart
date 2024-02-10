@@ -1,4 +1,4 @@
-import 'client.dart';
+import 'tio.dart';
 
 /// Helper class
 class TioService<E> {

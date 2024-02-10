@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 
-import 'client.dart';
 import 'request_proxy.dart';
+import 'tio.dart';
 import 'typedefs.dart';
 
 extension TioClientX<E> on Tio<E> {
