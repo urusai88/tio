@@ -8,9 +8,8 @@ import '_internal.dart';
 void main() {
   upAndDownTest();
 
-  final interceptor = testService.client.dio.interceptors
-      .whereType<TestAuthInterceptor>()
-      .first;
+  final interceptor =
+      testService.tio.dio.interceptors.whereType<TestAuthInterceptor>().first;
 
   group('auth', () {
     test(

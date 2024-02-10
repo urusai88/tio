@@ -39,5 +39,5 @@ typedef TioResultTransformer<T, E, R> = R Function(
 );
 
 typedef TioInterceptorBuilder<E> = TioInterceptor<E> Function(
-  Tio<E> client,
+  Tio<E> tio,
 );

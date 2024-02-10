@@ -25,12 +25,12 @@ final dio = Dio(
   BaseOptions(baseUrl: 'http://127.0.0.1:$serverPort/'),
 );
 
-final client = Tio<MyResponseError>.withInterceptors(
+final tio = Tio<MyResponseError>.withInterceptors(
   dio: dio,
   factoryConfig: factoryConfig,
   builders: [
-    (client) => TestAuthInterceptor(client: client),
+    (tio) => TestAuthInterceptor(tio: tio),
   ],
 );
 
-final testService = TestTioService(client: client);
+final testService = TestTioService(tio: tio);
