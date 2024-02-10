@@ -1,11 +1,11 @@
 import 'package:dio/dio.dart';
 
-import 'client.dart';
+import 'tio.dart';
 
-export 'interceptors/refreshable_auth_interceptor.dart';
+export 'interceptors/auth_interceptor.dart';
 
 class TioInterceptor<E> extends Interceptor {
-  const TioInterceptor({required this.client});
+  const TioInterceptor({required this.tio});
 
-  final Tio<E> client;
+  final Tio<E> tio;
 }

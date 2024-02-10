@@ -19,9 +19,9 @@ class TestTioStorageKey<T> implements TioStorageKey<T> {
   Future<void> set(T value) async => this.value = value;
 }
 
-final class TestAuthInterceptor extends TioRefreshableAuthInterceptor<
-    RefreshTokenResponse, MyResponseError> {
-  TestAuthInterceptor({required super.client});
+final class TestAuthInterceptor
+    extends TioAuthInterceptor<RefreshTokenResponse, MyResponseError> {
+  TestAuthInterceptor({required super.tio});
 
   @override
   final accessTokenKey = TestTioStorageKey(users.first.accessToken);

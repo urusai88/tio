@@ -13,22 +13,21 @@ class TioFactoryGroup<E> {
 }
 
 class TioFactoryConfig<E> {
-  const TioFactoryConfig({
-    required this.jsonFactoryList,
+  const TioFactoryConfig(
+    List<TioJsonFactory<dynamic>> factories, {
     required this.errorGroup,
-  });
+  }) : _factories = factories;
 
-  final List<TioJsonFactory<dynamic>> jsonFactoryList;
+  final List<TioJsonFactory<dynamic>> _factories;
   final TioFactoryGroup<E> errorGroup;
 
   List<Type> get containsFactories =>
-      jsonFactoryList.map(_genericTypeFactory).toList();
+      _factories.map(_genericTypeFactory).toList();
 
   TioJsonFactory<T>? get<T>() =>
-      jsonFactoryList.whereType<TioJsonFactory<T>>().firstOrNull;
+      _factories.whereType<TioJsonFactory<T>>().firstOrNull;
 
-  bool contains<T>() =>
-      jsonFactoryList.whereType<TioJsonFactory<T>>().isNotEmpty;
+  bool contains<T>() => get<T>() != null;
 }
 
 Type _genericTypeFactory<T>(TioJsonFactory<T> factory) => T;

@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 
-import 'client.dart';
 import 'interceptor.dart';
 import 'response.dart';
+import 'tio.dart';
 
 typedef JSON = Map<String, dynamic>;
 
@@ -39,5 +39,5 @@ typedef TioResultTransformer<T, E, R> = R Function(
 );
 
 typedef TioInterceptorBuilder<E> = TioInterceptor<E> Function(
-  Tio<E> client,
+  Tio<E> tio,
 );

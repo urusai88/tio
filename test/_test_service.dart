@@ -5,69 +5,77 @@ import 'package:tio/tio.dart';
 import '_entities.dart';
 import '_typedefs.dart';
 
-class TestTioService extends TioService<MyResponseError> {
-  const TestTioService({required super.client});
+class TestTioService extends TioApi<MyResponseError> {
+  const TestTioService({required super.tio});
 
-  Future<MyResponse<String>> methodGet() =>
-      client.get<String>('/method').string();
+  Future<MyResponse<String>> methodGet() => tio.get<String>('/method').string();
 
   Future<MyResponse<String>> methodPost() =>
-      client.post<String>('/method').string();
+      tio.post<String>('/method').string();
 
-  Future<MyResponse<String>> methodPut() =>
-      client.put<String>('/method').string();
+  Future<MyResponse<String>> methodPut() => tio.put<String>('/method').string();
 
   Future<MyResponse<String>> methodHead() =>
-      client.head<String>('/method').string();
+      tio.head<String>('/method').string();
 
   Future<MyResponse<String>> methodPatch() =>
-      client.patch<String>('/method').string();
+      tio.patch<String>('/method').string();
 
   Future<MyResponse<String>> methodDelete() =>
-      client.delete<String>('/method').string();
+      tio.delete<String>('/method').string();
 
   Future<MyResponse<void>> long(CancelToken cancelToken) =>
-      client.get<void>('/long_job', cancelToken: cancelToken).empty();
+      tio.get<void>('/long_job', cancelToken: cancelToken).empty();
 
-  Future<MyResponse<List<Post>>> posts() => client.get<Post>('/posts').many();
+  Future<MyResponse<List<Post>>> posts() => tio.get<Post>('/posts').many();
 
   Future<MyResponse<List<User>>> postsAsUsers() =>
-      client.get<User>('/posts').many();
+      tio.get<User>('/posts').many();
 
   Future<MyResponse<User>> postAsUser(int id) =>
-      client.get<User>('/posts/$id').one();
+      tio.get<User>('/posts/$id').one();
 
-  Future<MyResponse<List<Todo>>> todos() => client.get<Todo>('/todos').many();
+  Future<MyResponse<List<Todo>>> todos() => tio.get<Todo>('/todos').many();
+
+  Future<MyResponse<Todo>> todo(int id) => tio.get<Todo>('/todos/$id').one();
 
   Future<MyResponse<ResponseBody>> todosAsStream() =>
-      client.get<ResponseBody>('/todos').stream();
+      tio.get<ResponseBody>('/todos').stream();
 
   Future<MyResponse<String>> todosAsString() =>
-      client.get<String>('/todos').string();
+      tio.get<String>('/todos').string();
 
   Future<MyResponse<Uint8List>> todosAsBytes() =>
-      client.get<String>('/todos').bytes();
+      tio.get<String>('/todos').bytes();
 
-  Future<MyResponse<void>> todosAsEmpty() => client.get<void>('/todos').empty();
+  Future<MyResponse<void>> todosAsEmpty() => tio.get<void>('/todos').empty();
 
-  Future<MyResponse<Todo>> todo(int id) => client.get<Todo>('/todos/$id').one();
-
-  Future<MyResponse<User>> user(int id, {bool enableAuth = true}) => client
+  Future<MyResponse<User>> user(int id, {bool enableAuth = true}) => tio
       .get<User>('/users/$id', options: Options()..enableAuth = enableAuth)
       .one();
 
   Future<MyResponse<String>> checkAccessToken() =>
-      client.get<String>('/check_access_token').string();
+      tio.get<String>('/check_access_token').string();
 
   Future<MyResponse<RefreshTokenResponse>> refreshAccessToken() =>
-      client.get<RefreshTokenResponse>('/refresh_access_token').one();
+      tio.get<RefreshTokenResponse>('/refresh_access_token').one();
 
-  Future<MyResponse<User>> error404empty() =>
-      client.get<User>('/404_empty').one();
+  Future<MyResponse<User>> error404empty() => tio.get<User>('/404_empty').one();
 
   Future<MyResponse<User>> error404string() =>
-      client.get<User>('/404_string').one();
+      tio.get<User>('/404_string').one();
 
-  Future<MyResponse<User>> error404json() =>
-      client.get<User>('/404_json').one();
+  Future<MyResponse<User>> error404json() => tio.get<User>('/404_json').one();
+}
+
+class TestTioApiWithPath extends TioApi<MyResponseError> {
+  TestTioApiWithPath({required super.tio}) : super(path: '/todos');
+
+  Future<MyResponse<List<Todo>>> todos() => get<Todo>('/').many();
+
+  Future<MyResponse<List<Todo>>> todos2() => get<Todo>('').many();
+
+  Future<MyResponse<Todo>> todo(int id) => get<Todo>('/$id').one();
+
+  Future<MyResponse<Todo>> todo2(int id) => get<Todo>('$id').one();
 }

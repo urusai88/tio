@@ -8,9 +8,8 @@ import '_internal.dart';
 void main() {
   upAndDownTest();
 
-  final interceptor = testService.client.dio.interceptors
-      .whereType<TestAuthInterceptor>()
-      .first;
+  final interceptor =
+      testService.tio.dio.interceptors.whereType<TestAuthInterceptor>().first;
 
   group('auth', () {
     test(
@@ -74,8 +73,8 @@ void main() {
       await expectLater(
         testService.checkAccessToken(),
         throwsA(
-          isA<TioException>()
-              .having((e) => e.type, 'type', TioExceptionType.middleware),
+          isA<DioException>()
+              .having((e) => e.error, 'error', isA<TioTransformError>()),
         ),
       );
       await expectLater(

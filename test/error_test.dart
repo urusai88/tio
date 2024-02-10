@@ -12,10 +12,10 @@ void main() {
       () async => expect(
         testService.posts(),
         throwsA(
-          isA<TioError>().having(
-            (error) => error.type,
-            'type',
-            equals(TioErrorType.config),
+          isA<DioException>().having(
+            (error) => error.error,
+            'error',
+            isA<TioConfigError>(),
           ),
         ),
       ),
@@ -26,10 +26,10 @@ void main() {
       () async => expect(
         testService.postsAsUsers(),
         throwsA(
-          isA<TioException>().having(
-            (error) => error.type,
-            'type',
-            equals(TioExceptionType.middleware),
+          isA<DioException>().having(
+            (error) => error.error,
+            'error',
+            isA<TioTransformError>(),
           ),
         ),
       ),
@@ -40,10 +40,10 @@ void main() {
       () async => expect(
         testService.postAsUser(1),
         throwsA(
-          isA<TioException>().having(
-            (error) => error.type,
-            'type',
-            equals(TioExceptionType.middleware),
+          isA<DioException>().having(
+            (error) => error.error,
+            'error',
+            isA<TioTransformError>(),
           ),
         ),
       ),
@@ -101,22 +101,8 @@ void main() {
           return future;
         }),
         throwsA(
-          isA<TioException>()
-              .having(
-                (error) => error.type,
-                'type',
-                equals(TioExceptionType.dio),
-              )
-              .having(
-                (error) => error.dioException,
-                'dioException',
-                isNotNull,
-              )
-              .having(
-                (error) => error.dioException?.type,
-                'dioException.type',
-                DioExceptionType.cancel,
-              ),
+          isA<DioException>()
+              .having((error) => error.type, 'type', DioExceptionType.cancel),
         ),
       ),
     );

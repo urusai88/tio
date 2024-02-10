@@ -27,9 +27,8 @@ class TioTokenRefreshResult {
 }
 
 /// For personal use. Weak configurable and not fully tested
-abstract base class TioRefreshableAuthInterceptor<T, E>
-    extends TioInterceptor<E> {
-  const TioRefreshableAuthInterceptor({required super.client});
+abstract base class TioAuthInterceptor<T, E> extends TioInterceptor<E> {
+  const TioAuthInterceptor({required super.tio});
 
   Logger get logger => Logger(loggerName);
 
@@ -64,9 +63,9 @@ abstract base class TioRefreshableAuthInterceptor<T, E>
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) async {
-    final accessToken = await accessTokenKey.get();
-    if (accessToken != null && accessToken.isNotEmpty) {
-      if (options.enableAuth) {
+    if (options.enableAuth) {
+      final accessToken = await accessTokenKey.get();
+      if (accessToken != null && accessToken.isNotEmpty) {
         options = setAccessToken(options, accessToken);
       }
     }
@@ -82,7 +81,7 @@ abstract base class TioRefreshableAuthInterceptor<T, E>
     if (response == null) {
       return handler.next(err);
     }
-    final error = client.transformError(response);
+    final error = tio.transformError(response);
     if (!isTokenExpired(response, error)) {
       return handler.next(err);
     }
@@ -91,7 +90,7 @@ abstract base class TioRefreshableAuthInterceptor<T, E>
     );
     await _refreshToken(err, handler);
     if (!handler.isCompleted) {
-      handler.resolve(await client.dio.restart(response));
+      handler.resolve(await tio.dio.restart(response));
     }
   }
 
@@ -106,10 +105,9 @@ abstract base class TioRefreshableAuthInterceptor<T, E>
         DioException(
           requestOptions: err.requestOptions,
           response: err.response,
-          error: const TioException.middleware(
-            message: 'refreshToken is null',
-          ),
+          error: const TioError.transform(),
           stackTrace: StackTrace.current,
+          message: 'refreshToken is null',
         ),
       );
     }

@@ -9,7 +9,7 @@ import '_typedefs.dart';
 final emptyResponse = Response<dynamic>(requestOptions: RequestOptions());
 
 const factoryConfig = TioFactoryConfig<MyResponseError>(
-  jsonFactoryList: [
+  [
     TioJsonFactory<Todo>(Todo.fromJson),
     TioJsonFactory<User>(User.fromJson),
     TioJsonFactory<RefreshTokenResponse>(RefreshTokenResponse.fromJson),
@@ -25,12 +25,13 @@ final dio = Dio(
   BaseOptions(baseUrl: 'http://127.0.0.1:$serverPort/'),
 );
 
-final client = Tio<MyResponseError>.withInterceptors(
+final tio = Tio<MyResponseError>.withInterceptors(
   dio: dio,
   factoryConfig: factoryConfig,
   builders: [
-    (client) => TestAuthInterceptor(client: client),
+    (tio) => TestAuthInterceptor(tio: tio),
   ],
 );
 
-final testService = TestTioService(client: client);
+final testService = TestTioService(tio: tio);
+final testService2 = TestTioApiWithPath(tio: tio);

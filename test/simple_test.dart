@@ -6,7 +6,7 @@ import '_internal.dart';
 void main() {
   test('tio factory config', () {
     final factoryConfig = TioFactoryConfig<int>(
-      jsonFactoryList: const [
+      const [
         TioJsonFactory<User>(User.fromJson),
       ],
       errorGroup: TioFactoryGroup(

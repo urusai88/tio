@@ -18,7 +18,7 @@ class MyError {
 }
 
 const factoryConfig = TioFactoryConfig<MyError>(
-  jsonFactoryList: [
+  [
     TioJsonFactory<User>(User.fromJson),
   ],
   // Factory for error transformation

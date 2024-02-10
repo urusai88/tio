@@ -1,3 +1,11 @@
+## 0.8.0
+- pre-release
+- Some refactoring
+- TioFactoryConfig now receiving factories in first positional argument, instead of named
+- TioService renamed to TioApi and hot additional functionality
+- TioApi now mirrors common request methods with applying TioApi.path property as prefix of path
+- Reworded error system. Now Tio using DioException as base error.
+
 ## 0.7.1
 - fix static analysis
 
