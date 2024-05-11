@@ -1,0 +1,17 @@
+targets:
+  $default:
+    builders:
+      json_serializable:
+        generate_for:
+          include:
+            - "packages/tio_openapi_generator/**/**.dart"
+          exclude:
+            - "packages/tio_openapi_generator/**/**.g.dart"
+            - "packages/tio_openapi_generator/example/**/**.dart"
+    sources:
+      include:
+        - "packages/tio_openapi_generator/**/**"
+        - "lib/$lib$"
+        - "$package$"
+      exclude:
+        - "packages/tio_openapi_generator/example"

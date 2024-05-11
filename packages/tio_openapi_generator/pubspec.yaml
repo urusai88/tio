@@ -1,0 +1,34 @@
+name: tio_openapi_generator
+version: 0.0.1
+repository: https://github.com/urusai88/tio
+description: Tio OpenAPI generator
+
+topics:
+  - tio
+  - openapi
+  - rest
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  args: ^2.5.0
+  pubspec_parse: ^1.2.0
+  collection: ^1.18.0
+  logging: ^1.2.0
+  path: ^1.9.0
+  yaml: ^3.1.0
+  analyzer: ^6.3.0
+  build: ^2.4.0
+  source_gen: ^1.5.0
+  source_helper: ^1.3.0
+  json_annotation: ^4.9.0
+  code_builder: ^4.10.0
+  dart_style: ^2.3.0
+  tio: ^0.8.0
+
+dev_dependencies:
+  lints: any
+  test: ^1.5.0
+  build_runner: ^2.4.0
+  json_serializable: ^6.8.0

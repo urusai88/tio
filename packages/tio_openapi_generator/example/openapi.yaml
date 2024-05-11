@@ -1,0 +1,58 @@
+openapi: 3.1.0
+info:
+  version: 1.0.0
+  title: Sample Pet Store App
+paths:
+  /version:
+    get:
+      responses:
+        default:
+          description: Api version
+          content:
+            application/json:
+              schema:
+                type: string
+              example: 1.0.0
+  /users:
+    get:
+      tags:
+        - Users
+      responses:
+        default:
+          description: Users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: UserSchema
+  /users/{id}:
+    get:
+      tags:
+        - Users
+      responses:
+        default:
+          description: User info
+          content:
+            application/json:
+              schema:
+                $ref: UserSchema
+
+components:
+  schemas:
+    User:
+      $id: UserSchema
+      schema: object
+      properties:
+        id:
+          type: integer
+        username:
+          type: string
+        email:
+          $ref: EmailSchema
+      required:
+        - id
+        - username
+    Email:
+      $id: EmailSchema
+      type: string
