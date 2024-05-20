@@ -1,0 +1,12 @@
+targets:
+  $default:
+    sources:
+      include:
+        - $package$
+        - lib/$lib$
+        - lib/**.dart
+        - openapi.yaml
+#    builders:
+#      tio_openapi_generator:
+#        generate_for:
+#          - openapi.yaml

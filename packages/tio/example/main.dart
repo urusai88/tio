@@ -1,4 +1,5 @@
 // ignore_for_file: avoid_print
+import 'package:tio/src/typedefs.dart';
 import 'package:tio/tio.dart'; // 'package:dio.dio.dart' imports implicitly.
 
 class User {

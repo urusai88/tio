@@ -1,7 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:tio/tio.dart';
 
-import '../entities.dart';
 import '../internal.dart';
 
 part 'operation.g.dart';
@@ -15,6 +13,7 @@ class OperationObject {
       _$OperationObjectFromJson(json);
 
   final List<String>? tags;
+
   // final String? summary;
   // final String? description;
 

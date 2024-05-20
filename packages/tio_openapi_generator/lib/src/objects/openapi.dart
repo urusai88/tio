@@ -1,8 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:tio/tio.dart';
 
-import '../entities.dart';
 import '../internal.dart';
+import '../objects.dart';
 
 part 'openapi.g.dart';
 

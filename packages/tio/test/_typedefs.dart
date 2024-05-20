@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:tio/src/typedefs.dart';
 import 'package:tio/tio.dart';
 
 import '_internal.dart';

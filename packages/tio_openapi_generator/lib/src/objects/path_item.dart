@@ -1,11 +1,12 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:tio/tio.dart';
 
-import '../entities.dart';
+import '../enums.dart';
+import '../internal.dart';
+import '../objects.dart';
 
 part 'path_item.g.dart';
 
-typedef OperationMapEntry = MapEntry<String, OperationObject>;
+typedef OperationMapEntry = MapEntry<HttpMethod, OperationObject>;
 
 @JsonSerializable(createToJson: false)
 class PathItemObject {
@@ -21,6 +22,7 @@ class PathItemObject {
     this.head,
     this.patch,
     this.trace,
+    this.parameters,
   });
 
   factory PathItemObject.fromJson(JSON json) => _$PathItemObjectFromJson(json);
@@ -37,15 +39,17 @@ class PathItemObject {
   final OperationObject? patch;
   final OperationObject? trace;
 
+  final List<ParameterObject>? parameters;
+
   List<OperationMapEntry> get operations => [
-        if (get != null) MapEntry('GET', get!),
-        if (put != null) MapEntry('PUT', put!),
-        if (post != null) MapEntry('POST', post!),
-        if (delete != null) MapEntry('DELETE', delete!),
-        if (options != null) MapEntry('OPTIONS', options!),
-        if (head != null) MapEntry('HEAD', head!),
-        if (patch != null) MapEntry('PATCH', patch!),
-        if (trace != null) MapEntry('TRACE', trace!),
+        if (get != null) MapEntry(HttpMethod.get, get!),
+        if (put != null) MapEntry(HttpMethod.put, put!),
+        if (post != null) MapEntry(HttpMethod.post, post!),
+        if (delete != null) MapEntry(HttpMethod.delete, delete!),
+        if (options != null) MapEntry(HttpMethod.options, options!),
+        if (head != null) MapEntry(HttpMethod.head, head!),
+        if (patch != null) MapEntry(HttpMethod.patch, patch!),
+        if (trace != null) MapEntry(HttpMethod.trace, trace!),
       ];
 
 // @TODO servers, parameters

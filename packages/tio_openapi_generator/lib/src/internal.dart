@@ -1,9 +1,9 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:tio/tio.dart';
 
-import 'entities.dart';
+import 'objects.dart';
 
 typedef StringMap<T> = Map<String, T>;
+typedef JSON = StringMap<dynamic>;
 
 class ResponsesObjectJsonConverter
     extends JsonConverter<ResponsesObject, JSON> {

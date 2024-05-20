@@ -8,7 +8,7 @@ part of 'components.dart';
 
 ComponentsObject _$ComponentsObjectFromJson(Map<String, dynamic> json) =>
     ComponentsObject(
-      schemas: (json['schemas'] as Map<String, dynamic>).map(
+      schemas: (json['schemas'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(k, SchemaObject.fromJson(e as Map<String, dynamic>)),
       ),
     );

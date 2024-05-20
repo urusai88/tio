@@ -32,4 +32,7 @@ PathItemObject _$PathItemObjectFromJson(Map<String, dynamic> json) =>
       trace: json['trace'] == null
           ? null
           : OperationObject.fromJson(json['trace'] as Map<String, dynamic>),
+      parameters: (json['parameters'] as List<dynamic>?)
+          ?.map((e) => ParameterObject.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );

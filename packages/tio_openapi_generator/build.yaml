@@ -2,16 +2,20 @@ targets:
   $default:
     sources:
       exclude:
-        - example/**/**
-        - example/**
+        - example
 
 builders:
   tio_openapi_generator:
     import: package:tio_openapi_generator/builder.dart
     builder_factories:
       - tioOpenApiClientBuilder
-    build_extensions: { ".yaml": [  ] }
-    required_inputs: [ ".g.yaml", ".yaml" ]
+    build_extensions: { }
     auto_apply: dependents
     build_to: source
-    # applies_builders: ["source_gen|combining_builder"]
+    defaults:
+      generate_for:
+        - openapi.yaml
+      options:
+        configs:
+          main:
+            openapi: openapi.yaml

@@ -1,16 +1,17 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:tio/tio.dart';
 
 import '../enums.dart';
+import '../internal.dart';
+import '../objects.dart';
 
 part 'schema.g.dart';
 
 @JsonSerializable(createToJson: false)
 @JsonSchemaTypeJsonConverter()
-class SchemaObject {
+class SchemaObject extends CoreObject {
   const SchemaObject({
-    this.$id,
-    this.$ref,
+    super.$id,
+    super.$ref,
     this.type,
     this.format,
     this.properties,
@@ -25,9 +26,6 @@ class SchemaObject {
 
   factory SchemaObject.fromJson(JSON json) => _$SchemaObjectFromJson(json);
 
-  final String? $id;
-  final String? $ref;
-
   final JsonSchemaType? type;
   final JsonSchemaFormat? format;
   final Map<String, SchemaObject>? properties;
@@ -40,4 +38,16 @@ class SchemaObject {
   final String? pattern;
   final bool? uniqueItems;
   final SchemaObject? items;
+
+  Iterable<SchemaObject> nestedSchemas({bool includeSelf = true}) {
+    return [
+      if (includeSelf) this,
+      if (items != null) ...[
+        ...items!.nestedSchemas(),
+      ],
+      if (properties != null) ...[
+        ...properties!.values.map((e) => e.nestedSchemas()).expand((e) => e),
+      ],
+    ];
+  }
 }

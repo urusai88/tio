@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:tio/src/typedefs.dart';
 import 'package:tio/tio.dart';
 
 abstract interface class HasId {

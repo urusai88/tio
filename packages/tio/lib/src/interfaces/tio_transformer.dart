@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import '../../tio.dart';
+import '../typedefs.dart';
 
 abstract interface class TioTransformer<E> {
   TioResponse<T, E> transformOne<T>(Response<JSON> resp);

@@ -27,6 +27,11 @@ paths:
                 items:
                   $ref: UserSchema
   /users/{id}:
+    parameters:
+      - name: id
+        in: path
+        schema:
+          type: integer
     get:
       tags:
         - Users
@@ -36,13 +41,27 @@ paths:
           content:
             application/json:
               schema:
-                $ref: UserSchema
-
+                $ref: '#/components/schemas/User'
+  /orders:
+    get:
+      responses:
+        default:
+          description: Orders list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  current_address:
+                    type: object
+                    properties:
+                      city:
+                        type: string
 components:
   schemas:
     User:
       $id: UserSchema
-      schema: object
+      type: object
       properties:
         id:
           type: integer
@@ -55,4 +74,7 @@ components:
         - username
     Email:
       $id: EmailSchema
+      type: string
+    Address:
+      $id: AddressSchema
       type: string

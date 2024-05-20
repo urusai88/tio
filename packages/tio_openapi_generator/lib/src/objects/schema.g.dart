@@ -7,8 +7,8 @@ part of 'schema.dart';
 // **************************************************************************
 
 SchemaObject _$SchemaObjectFromJson(Map<String, dynamic> json) => SchemaObject(
-      $id: json[r'$id'] as String?,
-      $ref: json[r'$ref'] as String?,
+      $id: json[r'$id'] == null ? null : Uri.parse(json[r'$id'] as String),
+      $ref: json[r'$ref'] == null ? null : Uri.parse(json[r'$ref'] as String),
       type: const JsonSchemaTypeJsonConverter().fromJson(json['type']),
       format: $enumDecodeNullable(_$JsonSchemaFormatEnumMap, json['format']),
       properties: (json['properties'] as Map<String, dynamic>?)?.map(
