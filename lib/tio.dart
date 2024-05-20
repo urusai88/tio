@@ -7,5 +7,5 @@ export 'src/interceptor.dart';
 export 'src/request_proxy.dart';
 export 'src/response.dart';
 export 'src/tio.dart';
-export 'src/typedefs.dart';
+export 'src/typedefs.dart' hide JSON;
 export 'src/x.dart' hide ListX;

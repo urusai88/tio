@@ -12,7 +12,8 @@ class MyError {
 
   const MyError.empty() : errorMessage = 'Unknown message';
 
-  MyError.fromJson(JSON json) : errorMessage = json['message'] as String;
+  MyError.fromJson(Map<String, dynamic> json)
+      : errorMessage = json['message'] as String;
 
   final String errorMessage;
 }
