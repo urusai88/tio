@@ -29,16 +29,16 @@ mixin TioTransformMixin<E> {
         result: resp.data!,
       );
 
-  TioResponse<T, E> transformOne<T>(Response<JSON> resp) {
+  TioResponse<T, E> transformOne<T>(Response<JsonMap> resp) {
     final factory = factoryConfig.get<T>();
     final data = resp.data;
     if (factory == null) {
       _throwConfigException<T>(resp);
     }
-    if (data is! JSON) {
+    if (data is! JsonMap) {
       _throwTransformException(resp);
     }
-    final json = JSON.from(data);
+    final json = JsonMap.from(data);
     try {
       return TioResponse.success(
         response: resp,
@@ -51,7 +51,7 @@ mixin TioTransformMixin<E> {
 
   TioResponse<List<T>, E> transformMany<T>(Response<List<dynamic>> resp) {
     final factory = factoryConfig.get<T>();
-    final json = resp.data?.castChecked<JSON>();
+    final json = resp.data?.castChecked<JsonMap>();
     if (factory == null) {
       _throwConfigException<T>(resp);
     }
@@ -80,7 +80,7 @@ mixin TioTransformMixin<E> {
       return switch (resp.data) {
         final String string when string.isEmpty => group.empty(),
         final String string => group.string(string),
-        final JSON json => group.json(json),
+        final JsonMap json => group.json(json),
         _ => group.empty(),
       };
     } catch (e, s) {

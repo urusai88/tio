@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:tio/tio.dart';
 
 import '_internal.dart';
@@ -19,26 +20,36 @@ class TestTioStorageKey<T> implements TioStorageKey<T> {
   Future<void> set(T value) async => this.value = value;
 }
 
+abstract interface class TestAuthService {
+  Future<MyResponse<RefreshTokenResponse>> refresh();
+}
+
 final class TestAuthInterceptor
     extends TioAuthInterceptor<RefreshTokenResponse, MyResponseError> {
-  TestAuthInterceptor({required super.tio});
+  TestAuthInterceptor({
+    required super.tio,
+    required this.service,
+    required this.accessTokenKey,
+    super.syncRefresh,
+  });
+
+  final TestAuthService service;
 
   @override
-  final accessTokenKey = TestTioStorageKey(users.first.accessToken);
+  final TestTioStorageKey<String> accessTokenKey;
 
   @override
   final refreshTokenKey = TestTioStorageKey('refresh_token');
 
   @override
   bool isTokenExpired(Response<dynamic> response, MyResponseError error) =>
-      response.statusCode == HttpStatus.forbidden &&
       error.message == badTokenMessage;
 
   @override
   Future<TioResponse<RefreshTokenResponse, MyResponseError>> refreshToken(
     String refreshToken,
   ) =>
-      testService.refreshAccessToken();
+      service.refresh();
 
   @override
   TioTokenRefreshResult getRefreshTokenResult(

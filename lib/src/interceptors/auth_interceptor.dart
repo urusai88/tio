@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:logging/logging.dart';
 
@@ -28,7 +30,14 @@ class TioTokenRefreshResult {
 
 /// For personal use. Weak configurable and not fully tested
 abstract base class TioAuthInterceptor<T, E> extends TioInterceptor<E> {
-  const TioAuthInterceptor({required super.tio});
+  TioAuthInterceptor({
+    required super.tio,
+    this.syncRefresh = false,
+  });
+
+  final bool syncRefresh;
+
+  Completer<dynamic>? _syncCompleter;
 
   Logger get logger => Logger(loggerName);
 
@@ -88,7 +97,18 @@ abstract base class TioAuthInterceptor<T, E> extends TioInterceptor<E> {
     logger.info(
       'refreshing token, data.runtimeType: ${_dataToString(response.data)}',
     );
-    await _refreshToken(err, handler);
+
+    if (_syncCompleter != null) {
+      await _syncCompleter!.future;
+    } else {
+      if (syncRefresh) {
+        _syncCompleter = Completer();
+      }
+      await _refreshToken(err, handler).then((_) {
+        _syncCompleter?.complete();
+        _syncCompleter = null;
+      });
+    }
     if (!handler.isCompleted) {
       handler.resolve(await tio.dio.restart(response));
     }

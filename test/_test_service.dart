@@ -1,11 +1,12 @@
 import 'dart:typed_data';
 
+import 'package:dio/dio.dart';
 import 'package:tio/tio.dart';
 
-import '_entities.dart';
-import '_typedefs.dart';
+import '_internal.dart';
 
-class TestTioService extends TioApi<MyResponseError> {
+class TestTioService extends TioApi<MyResponseError>
+    implements TestAuthService {
   const TestTioService({required super.tio});
 
   Future<MyResponse<String>> methodGet() => tio.get<String>('/method').string();
@@ -54,18 +55,19 @@ class TestTioService extends TioApi<MyResponseError> {
       .get<User>('/users/$id', options: Options()..enableAuth = enableAuth)
       .one();
 
-  Future<MyResponse<String>> checkAccessToken() =>
-      tio.get<String>('/check_access_token').string();
-
-  Future<MyResponse<RefreshTokenResponse>> refreshAccessToken() =>
-      tio.get<RefreshTokenResponse>('/refresh_access_token').one();
-
   Future<MyResponse<User>> error404empty() => tio.get<User>('/404_empty').one();
 
   Future<MyResponse<User>> error404string() =>
       tio.get<User>('/404_string').one();
 
   Future<MyResponse<User>> error404json() => tio.get<User>('/404_json').one();
+
+  Future<MyResponse<String>> checkAccessToken() =>
+      tio.get<String>('/check_access_token').string();
+
+  @override
+  Future<MyResponse<RefreshTokenResponse>> refresh() =>
+      tio.get<RefreshTokenResponse>('/refresh_access_token').one();
 }
 
 class TestTioApiWithPath extends TioApi<MyResponseError> {
@@ -78,4 +80,15 @@ class TestTioApiWithPath extends TioApi<MyResponseError> {
   Future<MyResponse<Todo>> todo(int id) => get<Todo>('/$id').one();
 
   Future<MyResponse<Todo>> todo2(int id) => get<Todo>('$id').one();
+}
+
+class TestAuthTioService extends TioApi<MyResponseError>
+    implements TestAuthService {
+  TestAuthTioService({required super.tio});
+
+  Future<MyResponse<void>> index() => tio.get<void>('/').empty();
+
+  @override
+  Future<MyResponse<RefreshTokenResponse>> refresh() =>
+      tio.get<RefreshTokenResponse>('/refresh').one();
 }

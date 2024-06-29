@@ -4,7 +4,7 @@ import 'interceptor.dart';
 import 'response.dart';
 import 'tio.dart';
 
-typedef JSON = Map<String, dynamic>;
+typedef JsonMap = Map<String, dynamic>;
 
 class TioEmptyFactory<T> {
   const TioEmptyFactory(this.factory);
@@ -25,9 +25,9 @@ class TioStringFactory<T> {
 class TioJsonFactory<T> {
   const TioJsonFactory(this.factory);
 
-  final T Function(JSON json) factory;
+  final T Function(JsonMap json) factory;
 
-  T call(JSON json) => factory(json);
+  T call(JsonMap json) => factory(json);
 }
 
 typedef TioResponseTransformer<T, E, D> = TioResponse<T, E> Function(

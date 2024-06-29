@@ -1,10 +1,72 @@
+import 'package:dio/dio.dart';
 import 'package:tio/tio.dart';
 
-import '_auth_interceptor.dart';
-import '_entities.dart';
-import '_server.dart';
-import '_test_service.dart';
-import '_typedefs.dart';
+import '_internal.dart';
+
+class TioTest<T, A extends HttpClientAdapter> {
+  const TioTest({
+    required this.dio,
+    required this.tio,
+    required this.service,
+    required this.adapter,
+  });
+
+  final Dio dio;
+  final Tio<MyResponseError> tio;
+  final T service;
+  final A adapter;
+
+  static TioTest<TestTioService, TestHttpClientAdapter> main() {
+    final dio = Dio()..httpClientAdapter = TestHttpClientAdapter();
+    final tio = Tio<MyResponseError>.withInterceptors(
+      dio: dio,
+      factoryConfig: factoryConfig,
+    );
+    final service = TestTioService(tio: tio);
+    return TioTest(
+      dio: dio,
+      tio: tio,
+      service: service,
+      adapter: dio.httpClientAdapter as TestHttpClientAdapter,
+    );
+  }
+
+  static TioTest<TestTioApiWithPath, TestHttpClientAdapter> path() {
+    final dio = Dio()..httpClientAdapter = TestHttpClientAdapter();
+    final tio = Tio<MyResponseError>.withInterceptors(
+      dio: dio,
+      factoryConfig: factoryConfig,
+    );
+    final service = TestTioApiWithPath(tio: tio);
+    return TioTest(
+      dio: dio,
+      tio: tio,
+      service: service,
+      adapter: dio.httpClientAdapter as TestHttpClientAdapter,
+    );
+  }
+
+  static TioTest<TestAuthTioService, TestAuthHttpClientAdapter> auth({
+    required bool syncRefresh,
+  }) {
+    final adapter = TestAuthHttpClientAdapter();
+    final dio = Dio()..httpClientAdapter = adapter;
+    final tio = Tio<MyResponseError>.withInterceptors(
+      dio: dio,
+      factoryConfig: factoryConfig,
+    );
+    final service = TestAuthTioService(tio: tio);
+    dio.interceptors.add(
+      TestAuthInterceptor(
+        tio: tio,
+        service: service,
+        accessTokenKey: TestTioStorageKey(adapter.accessToken),
+        syncRefresh: syncRefresh,
+      ),
+    );
+    return TioTest(dio: dio, tio: tio, service: service, adapter: adapter);
+  }
+}
 
 final emptyResponse = Response<dynamic>(requestOptions: RequestOptions());
 
@@ -20,18 +82,3 @@ const factoryConfig = TioFactoryConfig<MyResponseError>(
     json: TioJsonFactory(MyResponseError.fromJson),
   ),
 );
-
-final dio = Dio(
-  BaseOptions(baseUrl: 'http://127.0.0.1:$serverPort/'),
-);
-
-final tio = Tio<MyResponseError>.withInterceptors(
-  dio: dio,
-  factoryConfig: factoryConfig,
-  builders: [
-    (tio) => TestAuthInterceptor(tio: tio),
-  ],
-);
-
-final testService = TestTioService(tio: tio);
-final testService2 = TestTioApiWithPath(tio: tio);

@@ -6,7 +6,7 @@ import '../response.dart';
 import '../typedefs.dart';
 
 abstract interface class TioBase<E> {
-  TioResponse<T, E> transformOne<T>(Response<JSON> resp);
+  TioResponse<T, E> transformOne<T>(Response<JsonMap> resp);
 
   TioResponse<List<T>, E> transformMany<T>(Response<List<dynamic>> resp);
 
@@ -24,7 +24,7 @@ abstract interface class TioBase<E> {
     String path,
     TioResponseTransformer<T, E, D> transformer, {
     Object? data,
-    JSON? queryParameters,
+    JsonMap? queryParameters,
     CancelToken? cancelToken,
     Options? options,
     ProgressCallback? onSendProgress,

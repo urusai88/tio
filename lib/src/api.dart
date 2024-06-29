@@ -22,7 +22,7 @@ class TioApi<E> with TioMixin<E>, TioTransformMixin<E> {
     String path,
     TioResponseTransformer<T, E, D> transformer, {
     Object? data,
-    JSON? queryParameters,
+    JsonMap? queryParameters,
     CancelToken? cancelToken,
     Options? options,
     ProgressCallback? onSendProgress,

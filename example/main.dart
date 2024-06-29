@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_print
-import 'package:tio/tio.dart'; // 'package:dio.dio.dart' imports implicitly.
+import 'package:dio/dio.dart';
+import 'package:tio/tio.dart';
 
 class User {
   User.fromJson(Map<String, dynamic> json) : id = json['id'] as int;

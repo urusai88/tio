@@ -8,7 +8,7 @@ mixin TioMixin<E> implements TioBase<E> {
   TioRequestProxy<T, E> get<T>(
     String path, {
     Object? data,
-    JSON? queryParameters,
+    JsonMap? queryParameters,
     Options? options,
     CancelToken? cancelToken,
     ProgressCallback? onReceiveProgress,
@@ -27,7 +27,7 @@ mixin TioMixin<E> implements TioBase<E> {
   TioRequestProxy<T, E> post<T>(
     String path, {
     Object? data,
-    JSON? queryParameters,
+    JsonMap? queryParameters,
     Options? options,
     CancelToken? cancelToken,
     ProgressCallback? onReceiveProgress,
@@ -48,7 +48,7 @@ mixin TioMixin<E> implements TioBase<E> {
   TioRequestProxy<T, E> put<T>(
     String path, {
     Object? data,
-    JSON? queryParameters,
+    JsonMap? queryParameters,
     Options? options,
     CancelToken? cancelToken,
     ProgressCallback? onSendProgress,
@@ -69,7 +69,7 @@ mixin TioMixin<E> implements TioBase<E> {
   TioRequestProxy<T, E> head<T>(
     String path, {
     Object? data,
-    JSON? queryParameters,
+    JsonMap? queryParameters,
     Options? options,
     CancelToken? cancelToken,
   }) =>
@@ -86,7 +86,7 @@ mixin TioMixin<E> implements TioBase<E> {
   TioRequestProxy<T, E> patch<T>(
     String path, {
     Object? data,
-    JSON? queryParameters,
+    JsonMap? queryParameters,
     Options? options,
     CancelToken? cancelToken,
     ProgressCallback? onSendProgress,
@@ -107,7 +107,7 @@ mixin TioMixin<E> implements TioBase<E> {
   TioRequestProxy<T, E> delete<T>(
     String path, {
     Object? data,
-    JSON? queryParameters,
+    JsonMap? queryParameters,
     Options? options,
     CancelToken? cancelToken,
   }) =>

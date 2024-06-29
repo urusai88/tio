@@ -25,7 +25,7 @@ class TioRequestProxy<T, E> {
   final String path;
   final String method;
   final Object? data;
-  final JSON? queryParameters;
+  final JsonMap? queryParameters;
   final Options? options;
   final CancelToken? cancelToken;
   final ProgressCallback? onSendProgress;
@@ -51,7 +51,7 @@ class TioRequestProxy<T, E> {
       );
 
   Future<TioResponse<T, E>> one() =>
-      _call<T, JSON>(ResponseType.json, client.transformOne);
+      _call<T, JsonMap>(ResponseType.json, client.transformOne);
 
   Future<TioResponse<List<T>, E>> many() =>
       _call<List<T>, List<dynamic>>(ResponseType.json, client.transformMany);

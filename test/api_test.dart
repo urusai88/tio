@@ -3,42 +3,28 @@ import 'package:test/test.dart';
 import '_internal.dart';
 
 void main() {
-  upAndDownTest();
+  final tio = TioTest.path();
 
-  group(
-    'api tests',
-    () {
-      test(
-        'todos with slash',
-        () async => expect(
-          testService2.todos(),
-          completion(isA<MySuccess<List<Todo>>>()),
-        ),
-      );
+  test(
+    'todos with slash',
+    () async =>
+        expect(tio.service.todos(), completion(isA<MySuccess<List<Todo>>>())),
+  );
 
-      test(
-        'todos without slash',
-        () async => expect(
-          testService2.todos2(),
-          completion(isA<MySuccess<List<Todo>>>()),
-        ),
-      );
+  test(
+    'todos without slash',
+    () async =>
+        expect(tio.service.todos2(), completion(isA<MySuccess<List<Todo>>>())),
+  );
 
-      test(
-        'todo with slash',
-        () async => expect(
-          testService2.todo(1),
-          completion(isA<MySuccess<Todo>>()),
-        ),
-      );
+  test(
+    'todo with slash',
+    () async => expect(tio.service.todo(1), completion(isA<MySuccess<Todo>>())),
+  );
 
-      test(
-        'todo without slash',
-        () async => expect(
-          testService2.todo2(1),
-          completion(isA<MySuccess<Todo>>()),
-        ),
-      );
-    },
+  test(
+    'todo without slash',
+    () async =>
+        expect(tio.service.todo2(1), completion(isA<MySuccess<Todo>>())),
   );
 }

@@ -9,7 +9,7 @@ abstract interface class HasId {
 class User with EquatableMixin implements HasId {
   const User({required this.id, required this.name, required this.accessToken});
 
-  User.fromJson(JSON json)
+  User.fromJson(JsonMap json)
       : id = json['id'] as int,
         name = json['name'] as String,
         accessToken = json['accessToken'] as String;
@@ -19,7 +19,7 @@ class User with EquatableMixin implements HasId {
   final String name;
   final String accessToken;
 
-  JSON toJson() => {'id': id, 'name': name, 'accessToken': accessToken};
+  JsonMap toJson() => {'id': id, 'name': name, 'accessToken': accessToken};
 
   @override
   List<Object?> get props => [id, name];
@@ -28,7 +28,7 @@ class User with EquatableMixin implements HasId {
 class Todo with EquatableMixin implements HasId {
   const Todo({required this.id, required this.userId});
 
-  Todo.fromJson(JSON json)
+  Todo.fromJson(JsonMap json)
       : id = json['id'] as int,
         userId = json['userId'] as int;
 
@@ -36,7 +36,7 @@ class Todo with EquatableMixin implements HasId {
   final int id;
   final int userId;
 
-  JSON toJson() => {'id': id, 'userId': userId};
+  JsonMap toJson() => {'id': id, 'userId': userId};
 
   @override
   List<Object?> get props => [id, userId];
@@ -50,7 +50,7 @@ class Post with EquatableMixin implements HasId {
   final int userId;
   final String body;
 
-  JSON toJson() => {'id': id, 'userId': userId, 'body': body};
+  JsonMap toJson() => {'id': id, 'userId': userId, 'body': body};
 
   @override
   List<Object?> get props => [id, userId, body];
@@ -73,12 +73,12 @@ const posts = <Post>[
 class RefreshTokenResponse {
   const RefreshTokenResponse({required this.a, required this.r});
 
-  RefreshTokenResponse.fromJson(JSON json)
+  RefreshTokenResponse.fromJson(JsonMap json)
       : a = json['a'] as String,
         r = json['r'] as String;
 
   final String a;
   final String r;
 
-  JSON toJson() => {'a': a, 'r': r};
+  JsonMap toJson() => {'a': a, 'r': r};
 }
