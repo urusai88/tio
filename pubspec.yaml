@@ -1,5 +1,5 @@
 name: tio
-version: 1.0.0
+version: 1.0.0+1
 repository: https://github.com/urusai88/tio
 
 description: |
@@ -17,7 +17,7 @@ environment:
 
 dependencies:
   logging: ^1.0.0
-  dio: ^5.0.0
+  dio: ^5.4.0
 
 dev_dependencies:
   lints: any
