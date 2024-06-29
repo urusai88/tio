@@ -49,7 +49,7 @@ class Tio<E> with TioMixin<E>, TioTransformMixin<E> {
             onReceiveProgress: onReceiveProgress,
           )
           .then(transformer);
-    } on DioException catch (e, s) {
+    } on DioException catch (e) {
       if (e.type == DioExceptionType.badResponse) {
         return TioResponse.failure(
           response: e.response,
