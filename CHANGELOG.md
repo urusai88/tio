@@ -1,9 +1,17 @@
+## 1.0.0+2
+- update README.md
+
+## 1.0.0+1
+- fix code style
+- update dependencies
+
 ## 1.0.0
 - release
 - 'package:tio/tio.dart' not does not export dio
 - 'package:tio/tio.dart' now exports JsonMap typedef
 - rewrite tests
 - auth interceptor sync refresh feature
+
 ## 0.8.0
 - pre-release
 - Some refactoring
