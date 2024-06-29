@@ -196,7 +196,6 @@ class TestAuthHttpClientAdapter implements HttpClientAdapter {
         _accessToken = _randomString();
         _count = 0;
         _refreshCount++;
-        print('new token: $_accessToken');
         return _responseJson(
           RefreshTokenResponse(a: _accessToken, r: 'refresh_token'),
         );
