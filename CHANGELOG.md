@@ -1,3 +1,6 @@
+## 1.1.0
+- added Future<TioResponse>.map extension method
+
 ## 1.0.0+2
 - update README.md
 

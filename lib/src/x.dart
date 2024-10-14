@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
 
+import 'response.dart';
+
 extension ListX on List<dynamic> {
   /// Checks every item is type of T.
   bool check<T>() => every((item) => item is T);
@@ -45,4 +47,12 @@ extension DioX on Dio {
       onReceiveProgress: requestOptions.onReceiveProgress,
     );
   }
+}
+
+extension FutureTioResponseX<T, E> on Future<TioResponse<T, E>> {
+  Future<R> map<R>({
+    required R Function(TioSuccess<T, E> success) success,
+    required R Function(TioFailure<T, E> failure) failure,
+  }) =>
+      then((response) => response.map(success: success, failure: failure));
 }
