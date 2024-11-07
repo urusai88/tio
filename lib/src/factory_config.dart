@@ -12,20 +12,20 @@ class TioFactoryGroup<E> {
 
 class TioFactoryConfig<E> {
   const TioFactoryConfig({
-    this.list = const {},
+    this.jsonFactories = const {},
     required this.errorStringFactory,
     required this.errorJsonFactory,
   });
 
-  final Set<TioJsonFactory<dynamic>> list;
+  final Set<TioJsonFactory<dynamic>> jsonFactories;
 
   final TioStringFactory<E> errorStringFactory;
   final TioJsonFactory<E> errorJsonFactory;
 
-  List<Type> get containsFactories => list.map(_genericTypeFactory).toList();
+  List<Type> get containsFactories => jsonFactories.map(_genericTypeFactory).toList();
 
   TioJsonFactory<T>? get<T>() =>
-      list.whereType<TioJsonFactory<T>>().firstOrNull;
+      jsonFactories.whereType<TioJsonFactory<T>>().firstOrNull;
 
   bool contains<T>() => get<T>() != null;
 }

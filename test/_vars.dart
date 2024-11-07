@@ -71,7 +71,7 @@ class TioTest<T, A extends HttpClientAdapter> {
 final emptyResponse = Response<dynamic>(requestOptions: RequestOptions());
 
 const factoryConfig = TioFactoryConfig<MyResponseError>(
-  list: {
+  jsonFactories: {
     Todo.fromJson,
     User.fromJson,
     RefreshTokenResponse.fromJson,

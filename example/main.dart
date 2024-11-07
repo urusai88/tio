@@ -16,7 +16,7 @@ class MyError {
 }
 
 const factoryConfig = TioFactoryConfig<MyError>(
-  list: {
+  jsonFactories: {
     User.fromJson,
   },
   errorJsonFactory: MyError.fromJson,
