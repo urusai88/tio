@@ -1,3 +1,9 @@
+## 2.0.0
+- Added TioResponse.map and when methods similar to freezed map/when
+- **BREAKING**: TioResponse now is not exhausted. Use map/when methods
+- TioResponse splitted for base TioResponse and TioHttpResponse with dio.Response response property
+- Empty factory removed, factories now is typedefs
+
 ## 1.1.0
 - added Future<TioResponse>.map extension method
 

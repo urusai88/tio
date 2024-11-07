@@ -1,7 +1,8 @@
 import 'package:dio/dio.dart';
 
 import 'factory_config.dart';
-import 'response.dart';
+import 'responses/response.dart';
+import 'responses/response_http.dart';
 import 'tio_mixin.dart';
 import 'tio_transform_mixin.dart';
 import 'typedefs.dart';
@@ -51,8 +52,8 @@ class Tio<E> with TioMixin<E>, TioTransformMixin<E> {
           .then(transformer);
     } on DioException catch (e) {
       if (e.type == DioExceptionType.badResponse) {
-        return TioResponse.failure(
-          response: e.response,
+        return TioHttpResponse.failure(
+          response: e.response!,
           error: transformError(e.response!),
         );
       }

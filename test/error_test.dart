@@ -47,7 +47,7 @@ void main() {
         isA<MyFailure<User>>().having(
           (error) => error.error,
           'error',
-          const MyResponseError.fromString(errorEmpty),
+          MyResponseError.fromString(errorEmpty),
         ),
       ),
     ),
@@ -61,7 +61,7 @@ void main() {
         isA<MyFailure<User>>().having(
           (error) => error.error,
           'error',
-          const MyResponseError.fromString(errorString),
+          MyResponseError.fromString(errorString),
         ),
       ),
     ),

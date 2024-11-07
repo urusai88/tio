@@ -1,12 +1,12 @@
 import 'package:dio/dio.dart';
 
-import 'response.dart';
+import 'responses/response.dart';
 
 extension ListX on List<dynamic> {
   /// Checks every item is type of T.
   bool check<T>() => every((item) => item is T);
 
-  /// Cast self to List<T> if every item is type of T.
+  /// Cast self to `List<T>` if every item is type of T.
   /// Otherwise returns null.
   List<T>? castChecked<T>() => check<T>() ? List<T>.from(this) : null;
 }

@@ -1,9 +1,8 @@
-// ignore_for_file: avoid_print
 import 'package:dio/dio.dart';
 import 'package:tio/tio.dart';
 
 class User {
-  User.fromJson(Map<String, dynamic> json) : id = json['id'] as int;
+  User.fromJson(JsonMap json) : id = json['id'] as int;
 
   final int id;
 }
@@ -13,23 +12,17 @@ class MyError {
 
   const MyError.empty() : errorMessage = 'Unknown message';
 
-  MyError.fromJson(Map<String, dynamic> json)
-      : errorMessage = json['message'] as String;
+  MyError.fromJson(JsonMap json) : errorMessage = json['message'] as String;
 
   final String errorMessage;
 }
 
 const factoryConfig = TioFactoryConfig<MyError>(
-  [
-    TioJsonFactory<User>(User.fromJson),
-  ],
-  // Factory for error transformation
-  errorGroup: TioFactoryGroup(
-    // when response body is empty (or empty string)
-    empty: TioEmptyFactory(MyError.empty),
-    string: TioStringFactory(MyError.fromString), // string
-    json: TioJsonFactory(MyError.fromJson), // or json
-  ),
+  list: {
+    User.fromJson,
+  },
+  errorJsonFactory: MyError.fromJson,
+  errorStringFactory: MyError.fromString,
 );
 
 final dio = Dio();

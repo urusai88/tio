@@ -4,7 +4,8 @@ import 'package:dio/dio.dart';
 
 import 'errors.dart';
 import 'factory_config.dart';
-import 'response.dart';
+import 'responses/response.dart';
+import 'responses/response_http.dart';
 import 'typedefs.dart';
 import 'x.dart';
 
@@ -12,19 +13,19 @@ mixin TioTransformMixin<E> {
   TioFactoryConfig<E> get factoryConfig;
 
   TioResponse<String, E> transformString(Response<String> resp) =>
-      TioResponse.success(
+      TioHttpResponse<String, E>.success(
         response: resp,
         result: resp.data!,
       );
 
   TioResponse<Uint8List, E> transformBytes(Response<Uint8List> resp) =>
-      TioResponse.success(
+      TioHttpResponse.success(
         response: resp,
         result: resp.data!,
       );
 
   TioResponse<ResponseBody, E> transformStream(Response<ResponseBody> resp) =>
-      TioResponse.success(
+      TioHttpResponse.success(
         response: resp,
         result: resp.data!,
       );
@@ -38,9 +39,10 @@ mixin TioTransformMixin<E> {
     if (data is! JsonMap) {
       _throwTransformException(resp);
     }
-    final json = JsonMap.from(data);
+
     try {
-      return TioResponse.success(
+      final json = JsonMap.from(data);
+      return TioHttpResponse.success(
         response: resp,
         result: factory(json),
       );
@@ -61,7 +63,7 @@ mixin TioTransformMixin<E> {
 
     try {
       final result = json.map(factory.call).toList();
-      return TioResponse.success(
+      return TioHttpResponse.success(
         response: resp,
         result: result,
       );
@@ -71,17 +73,14 @@ mixin TioTransformMixin<E> {
   }
 
   TioResponse<void, E> transformEmpty(Response<dynamic> resp) =>
-      TioResponse.success(response: resp, result: null);
+      TioHttpResponse.success(response: resp, result: null);
 
   E transformError(Response<dynamic> resp) {
-    final group = factoryConfig.errorGroup;
-
     try {
       return switch (resp.data) {
-        final String string when string.isEmpty => group.empty(),
-        final String string => group.string(string),
-        final JsonMap json => group.json(json),
-        _ => group.empty(),
+        final String string => factoryConfig.errorStringFactory(string),
+        final JsonMap json => factoryConfig.errorJsonFactory(json),
+        _ => factoryConfig.errorStringFactory(''),
       };
     } catch (e, s) {
       _throwTransformException(resp, e, s);

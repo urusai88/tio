@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 
 import 'factory_config.dart';
-import 'response.dart';
+import 'responses/response.dart';
 import 'tio.dart';
 import 'tio_mixin.dart';
 import 'tio_transform_mixin.dart';
