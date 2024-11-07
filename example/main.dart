@@ -10,8 +10,6 @@ class User {
 class MyError {
   const MyError.fromString(this.errorMessage);
 
-  const MyError.empty() : errorMessage = 'Unknown message';
-
   MyError.fromJson(JsonMap json) : errorMessage = json['message'] as String;
 
   final String errorMessage;
