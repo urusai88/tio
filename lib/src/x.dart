@@ -49,10 +49,16 @@ extension DioX on Dio {
   }
 }
 
-extension FutureTioResponseX<T, E> on Future<TioResponse<T, E>> {
-  Future<R> map<R>({
-    required R Function(TioSuccess<T, E> success) success,
-    required R Function(TioFailure<T, E> failure) failure,
+extension FutureTioResponseX<R, E> on Future<TioResponse<R, E>> {
+  Future<T> map<T>({
+    required T Function(TioSuccess<R, E> success) success,
+    required T Function(TioFailure<R, E> failure) failure,
   }) =>
       then((response) => response.map(success: success, failure: failure));
+
+  Future<T> when<T>({
+    required T Function(R result) success,
+    required T Function(E error) failure,
+  }) =>
+      then((response) => response.when(success: success, failure: failure));
 }

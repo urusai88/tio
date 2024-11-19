@@ -48,4 +48,10 @@ void main() async {
     case TioFailure<User, MyError>(error: final error):
       print('error acquired ${error.errorMessage}');
   }
+
+  // ignore: omit_local_variable_types
+  final User? user = await getUser(2).map(
+    success: (success) => success.result,
+    failure: (failure) => null,
+  );
 }
