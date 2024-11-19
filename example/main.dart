@@ -54,4 +54,10 @@ void main() async {
     success: (success) => success.result,
     failure: (failure) => null,
   );
+
+  // ignore: omit_local_variable_types
+  final User? user2 = await getUser(3).when(
+    success: (user) => user,
+    failure: (error) => null,
+  );
 }
