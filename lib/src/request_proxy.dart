@@ -3,7 +3,7 @@ import 'dart:typed_data';
 import 'package:dio/dio.dart';
 
 import 'interfaces/tio_base.dart';
-import 'response.dart';
+import 'responses/response.dart';
 import 'tio.dart';
 import 'typedefs.dart';
 

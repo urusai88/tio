@@ -4,9 +4,8 @@ import 'package:tio/tio.dart';
 import '_internal.dart';
 
 class MyResponseError with EquatableMixin {
-  const MyResponseError.fromString(this.message);
-
-  const MyResponseError.empty() : message = errorEmpty;
+  MyResponseError.fromString(String message)
+      : message = message.isNotEmpty ? message : errorEmpty;
 
   MyResponseError.fromJson(JsonMap json) : message = json['message'] as String;
 
@@ -19,3 +18,7 @@ class MyResponseError with EquatableMixin {
 typedef MyResponse<R> = TioResponse<R, MyResponseError>;
 typedef MySuccess<R> = TioSuccess<R, MyResponseError>;
 typedef MyFailure<R> = TioFailure<R, MyResponseError>;
+
+typedef MyHttpResponse<R> = TioHttpResponse<R, MyResponseError>;
+typedef MyHttpSuccess<R> = TioHttpSuccess<R, MyResponseError>;
+typedef MyHttpFailure<R> = TioHttpFailure<R, MyResponseError>;

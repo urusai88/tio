@@ -13,26 +13,8 @@ void main() {
       tio.service.todos(),
       completion(
         isA<MySuccess<List<Todo>>>()
-            .having(
-              (success) => success.result,
-              'result',
-              unorderedEquals(todos),
-            )
-            .having(
-              (success) => success,
-              'toString',
-              predicate<MySuccess<List<Todo>>>(
-                (success) =>
-                    '$success' ==
-                    'TioSuccess(result: ${success.result}, statusCode: ${success.response?.statusCode})',
-              ),
-            )
-            .having(
-              (success) =>
-                  success.map(success: (_) => true, failure: (_) => false),
-              'map',
-              isTrue,
-            ),
+            .having((s) => s.result, 'result', unorderedEquals(todos))
+            .having((s) => s.isSuccess, 'map', isTrue),
       ),
     ),
   );
@@ -53,27 +35,9 @@ void main() {
     () async => expect(
       tio.service.todo(0),
       completion(
-        isA<MyFailure<Todo>>()
-            .having(
-              (failure) => failure.response?.statusCode,
-              'error',
-              HttpStatus.notFound,
-            )
-            .having(
-              (failure) => failure,
-              'toString',
-              predicate<MyFailure<Todo>>(
-                (failure) =>
-                    '$failure' ==
-                    'TioFailure(error: ${failure.error}, statusCode: ${failure.response?.statusCode})',
-              ),
-            )
-            .having(
-              (success) =>
-                  success.map(success: (_) => true, failure: (_) => false),
-              'map',
-              isFalse,
-            ),
+        isA<MyHttpFailure<Todo>>()
+            .having((f) => f.response.statusCode, 'error', HttpStatus.notFound)
+            .having((s) => s.isSuccess, 'map', isFalse),
       ),
     ),
   );

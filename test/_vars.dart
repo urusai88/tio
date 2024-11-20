@@ -71,14 +71,11 @@ class TioTest<T, A extends HttpClientAdapter> {
 final emptyResponse = Response<dynamic>(requestOptions: RequestOptions());
 
 const factoryConfig = TioFactoryConfig<MyResponseError>(
-  [
-    TioJsonFactory<Todo>(Todo.fromJson),
-    TioJsonFactory<User>(User.fromJson),
-    TioJsonFactory<RefreshTokenResponse>(RefreshTokenResponse.fromJson),
-  ],
-  errorGroup: TioFactoryGroup(
-    empty: TioEmptyFactory(MyResponseError.empty),
-    string: TioStringFactory(MyResponseError.fromString),
-    json: TioJsonFactory(MyResponseError.fromJson),
-  ),
+  jsonFactories: {
+    Todo.fromJson,
+    User.fromJson,
+    RefreshTokenResponse.fromJson,
+  },
+  errorJsonFactory: MyResponseError.fromJson,
+  errorStringFactory: MyResponseError.fromString,
 );

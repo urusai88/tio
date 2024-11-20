@@ -5,7 +5,7 @@ import 'package:logging/logging.dart';
 
 import '../errors.dart';
 import '../interceptor.dart';
-import '../response.dart';
+import '../responses/response.dart';
 import '../x.dart';
 
 abstract interface class TioStorageKey<T> {

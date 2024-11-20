@@ -2,7 +2,7 @@ import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
 
-import '../response.dart';
+import '../responses/response.dart';
 import '../typedefs.dart';
 
 abstract interface class TioBase<E> {
