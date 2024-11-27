@@ -61,4 +61,6 @@ extension FutureTioResponseX<R, E> on Future<TioResponse<R, E>> {
     required T Function(E error) failure,
   }) =>
       then((response) => response.when(success: success, failure: failure));
+
+  Future<R> unwrap() => then((response) => response.requireResult);
 }

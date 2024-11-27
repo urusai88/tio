@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 
+import '../errors.dart';
 import '../typedefs.dart';
 
 mixin TioResponseMixin<R, E> {
@@ -35,7 +36,12 @@ abstract class TioResponse<R, E> with EquatableMixin, TioResponseMixin<R, E> {
 
   R get requireResult => map(
         success: (success) => success.result,
-        failure: (_) => throw StateError('Response is not success'),
+        failure: (_) => throw StateError('Response is not succeed'),
+      );
+
+  E get requireError => map(
+        success: (_) => throw StateError('Response is not failures'),
+        failure: (failure) => failure.error,
       );
 
   bool get isSuccess => this is TioSuccess;
