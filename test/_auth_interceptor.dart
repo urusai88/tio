@@ -65,4 +65,7 @@ final class TestAuthInterceptor
     await accessTokenKey.delete();
     await refreshTokenKey.delete();
   }
+
+  @override
+  String buildAccessToken(String accessToken) => accessToken;
 }
