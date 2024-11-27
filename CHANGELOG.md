@@ -1,3 +1,6 @@
+## 2.1.0
+- Added TioAuthInterceptor.buildAccessToken for transforming before sending
+
 ## 2.0.0
 - Added TioResponse.map and when methods similar to freezed map/when
 - **BREAKING**: TioResponse now is not exhausted. Use map/when methods
