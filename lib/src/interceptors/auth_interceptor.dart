@@ -57,10 +57,12 @@ abstract base class TioAuthInterceptor<T, E> extends TioInterceptor<E> {
 
   Future<void> onFailureRefresh(TioFailure<T, E> failure);
 
+  String buildAccessToken(String accessToken);
+
   RequestOptions setAccessToken(RequestOptions options, String accessToken) {
     final headers = {
       ...options.headers,
-      'authorization': accessToken,
+      'authorization': buildAccessToken(accessToken),
     };
 
     // Because [RequestOptions] overloads [RequestOptions.headers] setter.
