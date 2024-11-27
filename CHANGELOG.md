@@ -1,3 +1,7 @@
+## 2.2.0
+- Added TioResponse.requireError getter
+- Added FutureX.unwrap method
+
 ## 2.1.0
 - Added TioAuthInterceptor.buildAccessToken for transforming before sending
 
