@@ -50,14 +50,17 @@ void main() async {
   }
 
   // ignore: omit_local_variable_types
-  final User? user = await getUser(2).map(
+  final User? user = await getUser(1).map(
     success: (success) => success.result,
     failure: (failure) => null,
   );
 
   // ignore: omit_local_variable_types
-  final User? user2 = await getUser(3).when(
-    success: (user) => user,
+  final User? user2 = await getUser(2).when(
+    success: (result) => result,
     failure: (error) => null,
   );
+
+  // ignore: omit_local_variable_types
+  final User? user3 = (await getUser(3)).maybeResult;
 }

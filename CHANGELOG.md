@@ -1,3 +1,8 @@
+## 2.3.0
+- Update example
+- Added Future.maybeUnwrap method
+- Added TioResponse.maybeResult and maybeError getters
+
 ## 2.2.0
 - Added TioResponse.requireError getter
 - Added FutureX.unwrap method

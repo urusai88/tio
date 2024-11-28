@@ -18,12 +18,11 @@ Inspired by [chopper](https://pub.dev/packages/chopper).
 #### Basic usage:
 
 ```dart
-// ignore_for_file: avoid_print
 import 'package:dio/dio.dart';
 import 'package:tio/tio.dart';
 
 class User {
-  User.fromJson(Map<String, dynamic> json) : id = json['id'] as int;
+  User.fromJson(JsonMap json) : id = json['id'] as int;
 
   final int id;
 }
@@ -31,25 +30,17 @@ class User {
 class MyError {
   const MyError.fromString(this.errorMessage);
 
-  const MyError.empty() : errorMessage = 'Unknown message';
-
-  MyError.fromJson(Map<String, dynamic> json)
-      : errorMessage = json['message'] as String;
+  MyError.fromJson(JsonMap json) : errorMessage = json['message'] as String;
 
   final String errorMessage;
 }
 
 const factoryConfig = TioFactoryConfig<MyError>(
-  [
-    TioJsonFactory<User>(User.fromJson),
-  ],
-  // Factory for error transformation
-  errorGroup: TioFactoryGroup(
-    // when response body is empty (or empty string)
-    empty: TioEmptyFactory(MyError.empty),
-    string: TioStringFactory(MyError.fromString), // string
-    json: TioJsonFactory(MyError.fromJson), // or json
-  ),
+  jsonFactories: {
+    User.fromJson,
+  },
+  errorJsonFactory: MyError.fromJson,
+  errorStringFactory: MyError.fromString,
 );
 
 final dio = Dio();
@@ -77,7 +68,20 @@ void main() async {
     case TioFailure<User, MyError>(error: final error):
       print('error acquired ${error.errorMessage}');
   }
+
+  // ignore: omit_local_variable_types
+  final User? user = await getUser(2).map(
+    success: (success) => success.result,
+    failure: (failure) => null,
+  );
+
+  // ignore: omit_local_variable_types
+  final User? user2 = await getUser(3).when(
+    success: (user) => user,
+    failure: (error) => null,
+  );
 }
+
 ```
 
 ## Guide
